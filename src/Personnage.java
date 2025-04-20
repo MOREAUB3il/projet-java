@@ -2,14 +2,20 @@ import java.util.Random;
 
 public abstract class Personnage {
     private String nom;
-    private String estMalade;
+    private String sante;
+    private int pv;
+    private int pvMax;
+    private int force;
     protected int niveau;
     protected int xp;
     protected int xpPourNiveauSuivant;
 
     public Personnage(String nom) {
         this.nom = nom;
-        setEstMalade(santeAleatoire());
+        this.sante = santeAleatoire();
+        this.pvMax = getPvParSante(sante);
+        this.force = getForceParSante(sante);
+        this.pvMax = pv;
         this.niveau = 1;
         this.xp = 0;
         this.xpPourNiveauSuivant = 100;
@@ -21,13 +27,36 @@ public abstract class Personnage {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public String getEstMalade() {
-		return estMalade;
+	public String getSante() {
+		return sante;
 	}
 
-	public void setEstMalade(String estMalade) {
-		this.estMalade = estMalade;
+	public void setSante(String sante) {
+		this.sante = sante;
 	}
+	public int getPv() { return pv; }
+
+	public void setPv(int pv) {
+	    this.pv = Math.max(0, Math.min(pv, pvMax)); 
+	}
+
+	public int getPvMax() { return pvMax; }
+
+	public void setPvMax(int pvMax) {
+	     this.pvMax = pvMax;
+	     if (pv > pvMax) {
+	        pv = pvMax;
+	      }
+	}
+	
+	public int getForce() {
+		return force;
+	}
+	public void setForce(int force) {
+        if (force >= 0) {
+            this.force = force;
+        }
+    }
 	public int getNiveau() {
         return niveau;
     }
@@ -36,12 +65,33 @@ public abstract class Personnage {
     }
 
 	private static final String[] SANTE_POSSIBLES = {
-	        "plein forme", "fatigué", "épuisé", "sur la fin"
+	        "en plein forme","en plein forme","en plein forme","en plein forme","en plein forme","en plein forme",
+	        "fatigué", "fatigué","fatigué",
+	        "épuisé", "épuisé",
+	        "sur la fin"
 	    };
-	private static String santeAleatoire() {
+	protected static String santeAleatoire() {
 	       Random rand = new Random();
 	       return SANTE_POSSIBLES[rand.nextInt(SANTE_POSSIBLES.length)];
 	   }
+	private int getPvParSante(String sante) {
+		switch (sante) {
+	        case "plein forme": return (this instanceof Chevalier) ? 50 : (this instanceof Pretre) ? 40 : 30;
+	        case "fatigué": return (this instanceof Chevalier) ? 45 : (this instanceof Pretre) ? 35 : 25;
+	        case "épuisé": return (this instanceof Chevalier) ? 35 : (this instanceof Pretre) ? 25 : 20;
+	        case "sur la fin": return (this instanceof Chevalier) ? 25 : (this instanceof Pretre) ? 20 : 15;
+	        default: return 20;
+		}
+    }
+	private int getForceParSante(String sante) {
+        switch (sante) {
+            case "plein forme": return (this instanceof Chevalier || this instanceof Pretre) ? 10 : 20;
+            case "fatigué":  return (this instanceof Chevalier || this instanceof Pretre) ? 8 : 17;
+            case "épuisé":  return (this instanceof Chevalier || this instanceof Pretre) ? 6 : 14;
+            case "sur la fin":  return (this instanceof Chevalier || this instanceof Pretre) ? 2 : 10;
+            default: return 20;
+        }
+    }
 	
 	public void gagnerNiveau() {
 	    this.niveau++;
@@ -61,6 +111,7 @@ public abstract class Personnage {
 	    }
 	}
 	protected void augmenterStats() {}
+	
 	protected void afficherBarreXp() {
 	    int tailleBarre = 20; 
 	    double ratio = (double) xp / xpPourNiveauSuivant;
@@ -80,37 +131,9 @@ public abstract class Personnage {
 	}
 
 	public abstract void attaque1(Monstre cible);
+	
 	public abstract void subirDegats(int degats);
 
 	}
 
-/* je travaille dessus
-    public void seSoigner() {
-        if (!estMalade) {
-            System.out.println(nom + " n'a pas besoin d'être soigné.");
-        } else {
-            pv += 10;
-            estMalade = false;
-            System.out.println(nom + " est maintenant en pleine forme après avoir été soigné.");
-        }
-    }
-
-    public void prendreDegats(int degats) {
-        pv -= degats;
-        if (pv <= 0) {
-            pv = 0;
-            System.out.println(nom + " a été vaincu.");
-        } else {
-            if (Math.random() < 0.2) {
-                estMalade = true;
-                System.out.println(nom + " est tombé malade après avoir subi des dégâts.");
-            }
-        }
-    }
-
-    public boolean isVivant() {
-        return pv > 0;
-    }
-
-*/  
 
