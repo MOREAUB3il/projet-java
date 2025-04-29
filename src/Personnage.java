@@ -133,6 +133,32 @@ public abstract class Personnage {
 	public abstract void attaque1(Monstre cible);
 	
 	public abstract void subirDegats(int degats);
+	
+	protected ArrayList<Objet> inventaire = new ArrayList<Objet>();
+	
+	protected int or = 50;
+	
+	public int getOr() {
+	    return or;
+	}
+
+	public void setOr(int or) {
+		if(or>=0) {
+			this.or = or;
+		}
+	}
+
+	public void ajouterOr(int montant) {
+	    or += montant;
+	}
+
+	public boolean retirerOr(int montant) {
+	    if (or >= montant) {
+	        or -= montant;
+	        return true;
+	    }
+	    return false;
+	}
 
 	}
 
