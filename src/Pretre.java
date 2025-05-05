@@ -12,7 +12,7 @@ public class Pretre extends Personnage {
     };
 
     public Pretre() {
-        super(nomAleatoire(), 40);
+        super(nomAleatoire());
         this.force = 10;
         this.soin = 10;
     }
