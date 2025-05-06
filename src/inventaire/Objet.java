@@ -1,3 +1,6 @@
+package inventaire;
+import personnage.Personnage;
+
 public class Objet {
     private String nom;
     private String type;

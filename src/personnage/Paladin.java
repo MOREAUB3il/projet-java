@@ -1,3 +1,6 @@
+package personnage;
+
+import monstre.Monstre;
 import java.util.Random;
 
 public class Paladin extends Tank {

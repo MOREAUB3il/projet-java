@@ -1,4 +1,8 @@
+package event;
 import java.util.*;
+
+import inventaire.Objet;
+import personnage.Personnage;
 
 public class Shop {
     private List<Objet> stock;

@@ -1,4 +1,4 @@
-
+package personnage;
 public abstract class Mage extends Personnage {
     private int malediction;
     

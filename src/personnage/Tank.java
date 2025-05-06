@@ -1,4 +1,6 @@
+package personnage;
 public abstract class Tank extends Personnage {
+	
 private int defense;
     
     public int getDefense() {

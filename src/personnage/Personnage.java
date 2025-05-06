@@ -1,3 +1,6 @@
+package personnage;
+import monstre.Monstre;
+import inventaire.Objet;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -77,19 +80,19 @@ public abstract class Personnage {
 	   }
 	private int getPvParSante(String sante) {
 		switch (sante) {
-	        case "plein forme": return (this instanceof Chevalier) ? 50 : (this instanceof Pretre) ? 40 : 30;
-	        case "fatigué": return (this instanceof Chevalier) ? 45 : (this instanceof Pretre) ? 35 : 25;
-	        case "épuisé": return (this instanceof Chevalier) ? 35 : (this instanceof Pretre) ? 25 : 20;
-	        case "sur la fin": return (this instanceof Chevalier) ? 25 : (this instanceof Pretre) ? 20 : 15;
+	        case "plein forme": return (this instanceof Tank) ? 50 : (this instanceof Support) ? 40 : 30;
+	        case "fatigué": return (this instanceof Tank) ? 45 : (this instanceof Support) ? 35 : 25;
+	        case "épuisé": return (this instanceof Tank) ? 35 : (this instanceof Support) ? 25 : 20;
+	        case "sur la fin": return (this instanceof Tank) ? 25 : (this instanceof Support) ? 20 : 15;
 	        default: return 20;
 		}
     }
 	private int getForceParSante(String sante) {
         switch (sante) {
-            case "plein forme": return (this instanceof Chevalier || this instanceof Pretre) ? 10 : 20;
-            case "fatigué":  return (this instanceof Chevalier || this instanceof Pretre) ? 8 : 17;
-            case "épuisé":  return (this instanceof Chevalier || this instanceof Pretre) ? 6 : 14;
-            case "sur la fin":  return (this instanceof Chevalier || this instanceof Pretre) ? 2 : 10;
+            case "plein forme": return (this instanceof Tank || this instanceof Support) ? 10 : 20;
+            case "fatigué":  return (this instanceof Tank || this instanceof Support) ? 8 : 17;
+            case "épuisé":  return (this instanceof Tank || this instanceof Support) ? 6 : 14;
+            case "sur la fin":  return (this instanceof Tank || this instanceof Support) ? 2 : 10;
             default: return 20;
         }
     }

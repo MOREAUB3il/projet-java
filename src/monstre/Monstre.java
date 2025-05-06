@@ -1,4 +1,7 @@
+package monstre;
 import java.util.Random;
+
+import personnage.Personnage;
 
 public class Monstre {
     private String nom;

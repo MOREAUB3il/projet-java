@@ -1,4 +1,4 @@
-
+package personnage;
 public abstract class Dps extends Personnage {
     private int penetration;
     
