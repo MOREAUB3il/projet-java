@@ -7,6 +7,10 @@ import inventaire.Inventaire;
 import inventaire.Objet;
 import monstre.Monstre;
 import personnage.Personnage;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 public class Main {
 
