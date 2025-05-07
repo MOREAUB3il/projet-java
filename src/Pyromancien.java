@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Pyromancien  extends Mage{
 	
-	private Pyromancien() {
+	Pyromancien() {
         super(nomAleatoire());
     }
 	
