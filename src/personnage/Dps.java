@@ -1,4 +1,4 @@
-
+package personnage;
 public abstract class Dps extends Personnage {
     private int penetration;
     
@@ -11,8 +11,8 @@ public abstract class Dps extends Personnage {
         }
     }
     
-    public Dps(String nom) {
-    	super(nom);
+    public Dps(String nom, String dps) {
+    	super(nom, dps);
         this.setSante(getSante());
         this.penetration = 10;
     }

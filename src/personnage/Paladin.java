@@ -1,3 +1,6 @@
+package personnage;
+
+import monstre.Monstre;
 import java.util.Random;
 
 public class Paladin extends Tank {
@@ -8,7 +11,7 @@ public class Paladin extends Tank {
     };
     
     public Paladin() {
-    	super(nomAleatoire());
+    	super(nomAleatoire(),"tank");
     }
 
     private static String nomAleatoire() {

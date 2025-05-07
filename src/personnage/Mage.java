@@ -1,4 +1,4 @@
-
+package personnage;
 public abstract class Mage extends Personnage {
     private int malediction;
     
@@ -12,8 +12,8 @@ public abstract class Mage extends Personnage {
     }
 
    
-    public Mage(String nom) {
-        super(nom);
+    public Mage(String nom, String mage) {
+        super(nom, mage);
         this.malediction = 10;
         this.setSante(getSante());
     }

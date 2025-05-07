@@ -1,22 +1,24 @@
+package personnage;
+
+import monstre.Monstre;
 import java.util.Random;
 
-public class Necromancien  extends Mage{
+public class Pyromancien  extends Mage{
 	
-	private Necromancien() {
-        super(nomAleatoire());
+	public Pyromancien() {
+        super(nomAleatoire(),"mage");
     }
 	
 	
 	
 	private static final String[] NOMS_POSSIBLES = {
-	        " 🧙‍♂️ Thalor le Moissonneur ☠️ ", "🧙‍♂️ Ezrakar l'Éveilleur de Tombes ☠️ ","🧙‍♂️ Nyssara la Voix des Morts ☠️ ","🧙‍♂️ Voldren l’Échine Brisée ☠️ "," 🧙‍♂️ Malrith le Tisseur d’Âmes ☠️ "
+	        "🧙‍♂️ Vaelrik Cendreflamme 🔥 ", "🧙‍♂️ Ashara la Fournaise Écarlate 🔥 ","🧙‍♂️ Drazul le Brasier Noir 🔥 ","🧙‍♂️ Kaelthar le Fils du Brasier 🔥 ","🧙‍♂️ Morgath Sombreflamme 🔥 "
 	    };
 	
 	private static String nomAleatoire() {
         Random rand = new Random();
         return NOMS_POSSIBLES[rand.nextInt(NOMS_POSSIBLES.length)];
     }
-	
 	
 	
 	public void attaque1(Monstre cible) {

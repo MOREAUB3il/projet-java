@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package personnage;
+import monstre.Monstre;
 import java.util.Random;
 
 public abstract class Personnage {
@@ -10,8 +11,10 @@ public abstract class Personnage {
     protected int niveau;
     protected int xp;
     protected int xpPourNiveauSuivant;
+    private String type;
 
-    public Personnage(String nom) {
+
+    public Personnage(String nom, String type) {
         this.nom = nom;
         this.sante = santeAleatoire();
         this.pvMax = getPvParSante(sante);
@@ -20,6 +23,7 @@ public abstract class Personnage {
         this.niveau = 1;
         this.xp = 0;
         this.xpPourNiveauSuivant = 100;
+        this.type = type;
     }
     
 	public String getNom() {
@@ -64,6 +68,9 @@ public abstract class Personnage {
     public void setNiveau(int niveau) {
         this.niveau = niveau;
     }
+    public String getType() {
+		return type;
+	}
 
 	private static final String[] SANTE_POSSIBLES = {
 	        "en plein forme","en plein forme","en plein forme","en plein forme","en plein forme","en plein forme",
@@ -77,19 +84,19 @@ public abstract class Personnage {
 	   }
 	private int getPvParSante(String sante) {
 		switch (sante) {
-	        case "plein forme": return (this instanceof Chevalier) ? 50 : (this instanceof Pretre) ? 40 : 30;
-	        case "fatigué": return (this instanceof Chevalier) ? 45 : (this instanceof Pretre) ? 35 : 25;
-	        case "épuisé": return (this instanceof Chevalier) ? 35 : (this instanceof Pretre) ? 25 : 20;
-	        case "sur la fin": return (this instanceof Chevalier) ? 25 : (this instanceof Pretre) ? 20 : 15;
+	        case "plein forme": return (this instanceof Tank) ? 50 : (this instanceof Support) ? 40 : 30;
+	        case "fatigué": return (this instanceof Tank) ? 45 : (this instanceof Support) ? 35 : 25;
+	        case "épuisé": return (this instanceof Tank) ? 35 : (this instanceof Support) ? 25 : 20;
+	        case "sur la fin": return (this instanceof Tank) ? 25 : (this instanceof Support) ? 20 : 15;
 	        default: return 20;
 		}
     }
 	private int getForceParSante(String sante) {
         switch (sante) {
-            case "plein forme": return (this instanceof Chevalier || this instanceof Pretre) ? 10 : 20;
-            case "fatigué":  return (this instanceof Chevalier || this instanceof Pretre) ? 8 : 17;
-            case "épuisé":  return (this instanceof Chevalier || this instanceof Pretre) ? 6 : 14;
-            case "sur la fin":  return (this instanceof Chevalier || this instanceof Pretre) ? 2 : 10;
+            case "plein forme": return (this instanceof Tank || this instanceof Support) ? 10 : 20;
+            case "fatigué":  return (this instanceof Tank || this instanceof Support) ? 8 : 17;
+            case "épuisé":  return (this instanceof Tank || this instanceof Support) ? 6 : 14;
+            case "sur la fin":  return (this instanceof Tank || this instanceof Support) ? 2 : 10;
             default: return 20;
         }
     }
@@ -135,32 +142,9 @@ public abstract class Personnage {
 	
 	public abstract void subirDegats(int degats);
 	
-	protected ArrayList<Objet> inventaire = new ArrayList<Objet>();
-	
-	protected int or = 50;
-	
-	public int getOr() {
-	    return or;
-	}
-
-	public void setOr(int or) {
-		if(or>=0) {
-			this.or = or;
-		}
-	}
-
-	public void ajouterOr(int montant) {
-	    or += montant;
-	}
-
-	public boolean retirerOr(int montant) {
-	    if (or >= montant) {
-	        or -= montant;
-	        return true;
-	    }
-	    return false;
-	}
-
+	public boolean estVivant() {
+        return pv > 0;
+    }
 	}
 
 

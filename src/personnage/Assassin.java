@@ -1,14 +1,16 @@
+package personnage;
 
+import monstre.Monstre;
 import java.util.Random;
 
-public  class Barbare extends Dps {
+public  class Assassin extends Dps {
     
     private static final String[] NOMS_POSSIBLES = {
-    		" 🔪 Gorvok Crâne-Sanglant 🪓 "," 🔪 Olaf le Berserker 🪓 "," 🔪 Varkh le Hurleur d’Abîme 🪓 ","🔪 Korgash le Maudit 🪓 "," 🔪 Dragan Croc-de-Fer 🪓 "
+    		"🔪 Nyss la Lame Voilée 🗡️ ","🔪 Kael Sombrelien 🗡️","🔪 Vex du Souffle Mortel 🗡️ ","🔪 Shyrra la Marche-Nuit 🗡️ ","🔪 Orren des Mains Grises 🗡️ "
     };
 
-    public Barbare() {
-        super(nomAleatoire());
+    public Assassin() {
+        super(nomAleatoire(),"dps");
     }
 
     private static String nomAleatoire() {
