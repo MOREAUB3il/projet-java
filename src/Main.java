@@ -35,15 +35,14 @@ public class Main {
                 System.out.println("Choisissez une action pour " + joueurActif.getNom() + ":");
                 System.out.println("  1. Attaquer (" + joueurActif.getForce() + " atk stat)");
                 System.out.println("  2. Utiliser un objet");
-
-                System.out.println("  4. Passer son tour (ce personnage)");
+                System.out.println("  3. Changer de place avec un coéquipier");
 
                 int choixAction = -1;
-                while (choixAction < 1 || choixAction > 4) {
-                    System.out.print("Votre choix (1-4) : ");
+                while (choixAction < 1 || choixAction > 3) {
+                    System.out.print("Votre choix (1-3) : ");
                     if (scanner.hasNextInt()) {
                         choixAction = scanner.nextInt();
-                        if (choixAction < 1 || choixAction > 4) {
+                        if (choixAction < 1 || choixAction > 3) {
                             System.out.println("Choix invalide.");
                         }
                     } else {
@@ -122,10 +121,6 @@ public class Main {
                             actionEffectuee = false;
                             pa--;
                         }
-                        break;
-
-                    case 4: // Passer son tour
-                        System.out.println(joueurActif.getNom() + " passe son tour.");
                         break;
                 }
 
