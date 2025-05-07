@@ -11,8 +11,8 @@ private int defense;
             this.defense = defense;
         }
     }
-    public Tank(String nom) {
-    	super(nom);
+    public Tank(String nom,String tank) {
+    	super(nom, tank);
         this.setSante(getSante());
         this.defense = 10;
     }

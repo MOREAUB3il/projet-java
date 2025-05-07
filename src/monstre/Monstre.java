@@ -1,7 +1,9 @@
 package monstre;
-import java.util.Random;
 
+import java.util.Random;
 import personnage.Personnage;
+import inventaire.Inventaire;
+
 
 public class Monstre {
     private String nom;
@@ -9,30 +11,32 @@ public class Monstre {
     private int force;
     private int defence;
     private double maladieChance;
-
-    public Monstre(String type, int pv, int force, int defence, double maladieChance) {
+    private int orM;
+    
+    public Monstre(String type, int pv, int force, int defence, double maladieChance, int or) {
         this.nom = type;
         this.pv = pv;
         this.force = force;
         this.defence =defence;
         this.maladieChance = maladieChance;
+        this.orM = or;
     }
     public static Monstre monstreFaible() {
-        return new Monstre("Monstre Faible", 25, 5, 15, 1.0 / 50);
+        return new Monstre("Monstre Faible", 25, 5, 15, 1.0 / 50, 10);
     }
 
     public static Monstre monstreMoyen() {
-        return new Monstre("Monstre Moyen", 50, 15, 25, 1.0 / 30);
+        return new Monstre("Monstre Moyen", 50, 15, 25, 1.0 / 30, 20);
     }
 
     public static Monstre monstreFort() {
-        return new Monstre("Monstre Fort", 100, 30, 45, 1.0 / 20);
+        return new Monstre("Monstre Fort", 100, 30, 45, 1.0 / 20, 30);
     }
 
     public static Monstre boss(int etage) {
         int pv = etage * 10 + 100;
         int force = etage + 30;
-        return new Monstre("BOSS Étage " + etage, pv, force, 150, 1.0 / 20);
+        return new Monstre("BOSS Étage " + etage, pv, force, 150, 1.0 / 20, 40+ etage);
     }
     
     public void attaquer(Personnage cible) {
@@ -48,6 +52,13 @@ public class Monstre {
         if (pv < 0) pv = 0;
         System.out.println(nom + " a maintenant " + pv + " PV.");
     }
+    public void estMort(Inventaire inventaire) {
+    	if(pv <= 0) {
+    		System.out.println(nom + " es mort " );
+			inventaire.ajouterOr(orM);
+			System.out.println("Vous avez gagné " + orM + " pièces d'or !");
+    	}
+    }
 
     public boolean estVivant() {
         return pv > 0;
@@ -56,4 +67,5 @@ public class Monstre {
     public String getNom() { return nom; }
     public int getDefence() { return defence; }
     public int getPv() { return pv; }
+    public int getOrM() {return orM;}
 }

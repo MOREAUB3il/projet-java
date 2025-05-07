@@ -1,7 +1,8 @@
 package event;
-import java.util.*;
 
+import java.util.*;
 import inventaire.Objet;
+import inventaire.Inventaire;
 import personnage.Personnage;
 
 public class Shop {
@@ -21,11 +22,11 @@ public class Shop {
         stock.add(Objet.collierLegendaire());
     }
 
-    public void ouvrir(Personnage joueur, Scanner scanner, List<Objet> inventaire) {
+    public void ouvrir(Personnage joueur, Scanner scanner, Inventaire inventaire ) {
         System.out.println("Bienvenue au magasin !");
 
         while (true) {
-            System.out.println("Ton or : " + joueur.getOr());
+            System.out.println("Ton or : " + inventaire.getOr());
             System.out.println("Objets disponibles :");
 
             for (int i = 0; i < stock.size(); i++) {
@@ -43,9 +44,9 @@ public class Shop {
             }
 
             Objet choisi = stock.get(choix - 1);
-            if (joueur.getOr() >= choisi.getPrix()) {
-                joueur.setOr(joueur.getOr() - choisi.getPrix());
-                inventaire.add(choisi);
+            if (inventaire.getOr() >= choisi.getPrix()) {
+                inventaire.setOr(inventaire.getOr() - choisi.getPrix());
+                inventaire.ajouterObjet(choisi);
                 System.out.println("Tu as acheté : " + choisi.getNom());
             } else {
                 System.out.println("Pas assez d’or.");

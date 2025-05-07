@@ -11,7 +11,7 @@ public  class Barbare extends Dps {
     };
 
     public Barbare() {
-        super(nomAleatoire());
+        super(nomAleatoire(),"dps");
     }
 
     private static String nomAleatoire() {

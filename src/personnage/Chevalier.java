@@ -11,7 +11,7 @@ public class Chevalier extends Tank {
     };
 
     public Chevalier() {
-    	super(nomAleatoire());
+    	super(nomAleatoire(),"tank");
     }
 
     private static String nomAleatoire() {

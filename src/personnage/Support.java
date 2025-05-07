@@ -14,8 +14,8 @@ private int soin;
             this.soin = soin;
         }
     }
-    public Support(String nom) {
-    	super(nom);
+    public Support(String nom, String support) {
+    	super(nom, support);
         this.setSante(getSante());
         this.soin = 10;
     }

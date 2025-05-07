@@ -1,7 +1,5 @@
 package personnage;
 import monstre.Monstre;
-import inventaire.Objet;
-import java.util.ArrayList;
 import java.util.Random;
 
 public abstract class Personnage {
@@ -13,8 +11,10 @@ public abstract class Personnage {
     protected int niveau;
     protected int xp;
     protected int xpPourNiveauSuivant;
+    private String type;
 
-    public Personnage(String nom) {
+
+    public Personnage(String nom, String type) {
         this.nom = nom;
         this.sante = santeAleatoire();
         this.pvMax = getPvParSante(sante);
@@ -23,6 +23,7 @@ public abstract class Personnage {
         this.niveau = 1;
         this.xp = 0;
         this.xpPourNiveauSuivant = 100;
+        this.type = type;
     }
     
 	public String getNom() {
@@ -67,6 +68,9 @@ public abstract class Personnage {
     public void setNiveau(int niveau) {
         this.niveau = niveau;
     }
+    public String getType() {
+		return type;
+	}
 
 	private static final String[] SANTE_POSSIBLES = {
 	        "en plein forme","en plein forme","en plein forme","en plein forme","en plein forme","en plein forme",
@@ -138,32 +142,9 @@ public abstract class Personnage {
 	
 	public abstract void subirDegats(int degats);
 	
-	protected ArrayList<Objet> inventaire = new ArrayList<Objet>();
-	
-	protected int or = 50;
-	
-	public int getOr() {
-	    return or;
-	}
-
-	public void setOr(int or) {
-		if(or>=0) {
-			this.or = or;
-		}
-	}
-
-	public void ajouterOr(int montant) {
-	    or += montant;
-	}
-
-	public boolean retirerOr(int montant) {
-	    if (or >= montant) {
-	        or -= montant;
-	        return true;
-	    }
-	    return false;
-	}
-
+	public boolean estVivant() {
+        return pv > 0;
+    }
 	}
 
 

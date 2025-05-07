@@ -11,7 +11,7 @@ public class Paladin extends Tank {
     };
     
     public Paladin() {
-    	super(nomAleatoire());
+    	super(nomAleatoire(),"tank");
     }
 
     private static String nomAleatoire() {

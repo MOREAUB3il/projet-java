@@ -10,7 +10,7 @@ public  class Assassin extends Dps {
     };
 
     public Assassin() {
-        super(nomAleatoire());
+        super(nomAleatoire(),"dps");
     }
 
     private static String nomAleatoire() {

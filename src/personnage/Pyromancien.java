@@ -6,7 +6,7 @@ import java.util.Random;
 public class Pyromancien  extends Mage{
 	
 	public Pyromancien() {
-        super(nomAleatoire());
+        super(nomAleatoire(),"mage");
     }
 	
 	

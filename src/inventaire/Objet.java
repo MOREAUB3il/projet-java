@@ -45,17 +45,23 @@ public class Objet {
 
     
     public void utiliser(Personnage cible) {
+        if (cible == null) {
+            System.out.println("Aucune cible pour l'objet " + nom);
+            return;
+        }
+        System.out.println(cible.getNom() + " utilise " + nom + ".");
         if (type.equals("potion")) {
-            cible.setPv(cible.getPv() + valeur);
-            System.out.println(cible.getNom() + " récupère " + valeur + " PV !");
+            int pvActuels = cible.getPv();
+            cible.setPv(pvActuels + valeur); 
+            System.out.println("  " + cible.getNom() + " récupère " + valeur + " PV ! (Nouveaux PV: " + cible.getPv() + ")");
         } else if (type.equals("buff")) {
-            cible.setForce(cible.getForce() + valeur);
-            System.out.println(cible.getNom() + " gagne " + valeur + " en force !");
+            int forceActuelle = cible.getForce(); 
+            cible.setForce(forceActuelle + valeur); 
+            System.out.println("  " + cible.getNom() + " gagne " + valeur + " en force ! (Nouvelle Force: " + cible.getForce() + ")");
         } else {
-            System.out.println("Objet inconnu.");
+            System.out.println("  Effet de l'objet " + nom + " non reconnu ou non applicable.");
         }
     }
-
     public void afficher() {
         System.out.println(nom + " (" + rarete + ") - " + effet);
     }
