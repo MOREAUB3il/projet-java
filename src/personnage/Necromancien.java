@@ -12,7 +12,7 @@ public class Necromancien  extends Mage{
 	
 	
 	private static final String[] NOMS_POSSIBLES = {
-	        " 🧙‍♂️ Thalor le Moissonneur ☠️ ", "🧙‍♂️ Ezrakar l'Éveilleur de Tombes ☠️ ","🧙‍♂️ Nyssara la Voix des Morts ☠️ ","🧙‍♂️ Voldren l’Échine Brisée ☠️ "," 🧙‍♂️ Malrith le Tisseur d’Âmes ☠️ "
+	        " 🧙‍♂️ Thalor le Moissonneur ☠️ ", "🧙‍♂️ Ezrakar l'Éveilleur de Tombes ☠️ ","🧙‍♂️ Nyssara la Voix des Morts ☠️ ","🧙‍♂️ Voldren l’Échine Brisée ☠️ "," 🧙‍♂️ Ainz le Roi Sorcier ☠️ "
 	    };
 	
 	private static String nomAleatoire() {
