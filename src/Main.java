@@ -3,16 +3,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+import event.Shop;
 import inventaire.Inventaire;
 import inventaire.Objet;
 import monstre.Monstre;
 import personnage.Personnage;
+import personnage.Pyromancien;
 
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        
+        Pyromancien pyro = new Pyromancien();
+        Shop shop = new Shop();
+        System.out.println("Création du Pyromancien : " + pyro.getNom());
+  
 
+
+        
         List<Personnage> joueurs = new ArrayList<>();
         List<Monstre> monstres = new ArrayList<>();
         Inventaire inventaire = new Inventaire();
