@@ -8,13 +8,12 @@ import inventaire.Objet;
 import monstre.Monstre;
 import personnage.Personnage;
 
-
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-       List<Personnage> joueurs = new ArrayList<>();
+        List<Personnage> joueurs = new ArrayList<>();
         List<Monstre> monstres = new ArrayList<>();
         Inventaire inventaire = new Inventaire();
 
