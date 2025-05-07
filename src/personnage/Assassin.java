@@ -34,4 +34,25 @@ public  class Assassin extends Dps {
     }
 
 
+    public void ulti(Monstre cible){
+        
+                int degatsBase = getForce() + getPenetration() * (cible.getDefence() / 5); 
+                int degats = degatsBase;
+            
+               Random rand = new Random();
+               boolean coupCritique = rand.nextInt(100) < 30;
+            
+                if (coupCritique) {
+                    degats *= 2;
+                    System.out.println("Coup critique ! 💥");
+                }
+            
+                System.out.println(getNom() + " réalise une attaque ultime sur " + cible.getNom() + " !");
+                System.out.println("Cela inflige " + degats + " dégâts dévastateurs !");
+                
+                cible.subirDegats(degats);
+            }
+            
+        
+
 }
