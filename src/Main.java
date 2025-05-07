@@ -35,7 +35,7 @@ public class Main {
                 System.out.println("Choisissez une action pour " + joueurActif.getNom() + ":");
                 System.out.println("  1. Attaquer (" + joueurActif.getForce() + " atk stat)");
                 System.out.println("  2. Utiliser un objet");
-                System.out.println("  3. Changer de place avec un coéquipier");
+
                 System.out.println("  4. Passer son tour (ce personnage)");
 
                 int choixAction = -1;
