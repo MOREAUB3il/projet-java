@@ -13,7 +13,7 @@ public class Pretre extends Support {
     };
 
     public Pretre() {
-        super(nomAleatoire());
+        super(nomAleatoire(),"support");
     }
 
     private static String nomAleatoire() {

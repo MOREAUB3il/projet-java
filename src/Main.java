@@ -7,7 +7,6 @@ import inventaire.Inventaire;
 import inventaire.Objet;
 import monstre.Monstre;
 import personnage.Personnage;
-import personnage.Joueur;
 
 public class Main {
 
@@ -18,26 +17,9 @@ public class Main {
         List<Monstre> monstres = new ArrayList<>();
         Inventaire inventaire = new Inventaire();
 
-       /*
-        joueurs.add(new Joueur("Héros Alpha", 120, 20));
-        joueurs.add(new Joueur("Mage Beta", 80, 15));
-        joueurs.add(new Joueur("Guerrier Gamma", 150, 25));
-        joueurs.add(new Joueur("Soigneur Delta", 100, 10)); 
-
-        monstres.add(new Monstre("Gobelin Chef", 100, 18, 10, 0.1, 20));
-        monstres.add(new Monstre("Orc Berserker", 150, 22, 15, 0.2, 30));
-        monstres.add(new Monstre("Chaman Gobelin", 70, 15, 8, 0.15, 25));
-        monstres.add(new Monstre("Loup Féroce", 90, 16, 12, 0.1, 15));
-
-        System.out.println("--- Le combat commence ! ---");
-        int numeroTourGlobal = 1;
-*/
-        // Boucle principale du jeu
+        
+        
         while (!joueurs.isEmpty() && !monstres.isEmpty()) {
-            System.out.println("\n-------------------------------------------");
-            System.out.println("--- TOUR GLOBAL N°" + numeroTourGlobal + " ---");
-            System.out.println("-------------------------------------------");
-
             afficherEtatEquipes(joueurs, monstres);
 
             // --- TOUR DES JOUEURS (4 Points d'Action pour l'équipe) ---
@@ -167,7 +149,6 @@ public class Main {
                     joueurs.remove(0);
                 }
             }
-            numeroTourGlobal++;
         }
 
         System.out.println("\n-------------------------------------------");
