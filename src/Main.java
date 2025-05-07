@@ -7,17 +7,14 @@ import inventaire.Inventaire;
 import inventaire.Objet;
 import monstre.Monstre;
 import personnage.Personnage;
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        List<Personnage> joueurs = new ArrayList<>();
+       /* List<Personnage> joueurs = new ArrayList<>();
         List<Monstre> monstres = new ArrayList<>();
         Inventaire inventaire = new Inventaire();
 
@@ -186,6 +183,6 @@ public class Main {
                 System.out.println("  " + (i + 1) + ". " + monstres.get(i).getNom());
             }
         }
-        System.out.println("---------------");
+        System.out.println("---------------");*/
     }
 }
