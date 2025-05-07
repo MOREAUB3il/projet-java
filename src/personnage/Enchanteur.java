@@ -13,7 +13,7 @@ public class Enchanteur extends Support {
     };
 
     public Enchanteur() {
-        super(nomAleatoire());
+        super(nomAleatoire(),"support");
     }
 
     private static String nomAleatoire() {
