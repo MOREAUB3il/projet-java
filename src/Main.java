@@ -18,6 +18,7 @@ public class Main {
         Pyromancien pyro = new Pyromancien();
         Shop shop = new Shop();
         System.out.println("Création du Pyromancien : " + pyro.getNom());
+        pyro.afficherStat();
   
 
 

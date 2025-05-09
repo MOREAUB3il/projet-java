@@ -19,13 +19,20 @@ public abstract class Personnage {
         this.sante = santeAleatoire();
         this.pvMax = getPvParSante(sante);
         this.force = getForceParSante(sante);
-        this.pvMax = pv;
+        this.pv = pvMax;
         this.niveau = 1;
         this.xp = 0;
         this.xpPourNiveauSuivant = 100;
         this.type = type;
     }
-    
+    public void afficherStat() {
+    	System.out.println(getNom());
+    	System.out.println("Etat de sante :"+getSante());
+    	System.out.println("Pv :"+getPv());
+    	System.out.println("Pv max :"+getPvMax());
+    	System.out.println("Force :"+getForce());
+    	System.out.println("Niveau :"+getNiveau());
+    }
 	public String getNom() {
 		return nom;
 	}
