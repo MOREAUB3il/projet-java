@@ -2,6 +2,8 @@ package personnage;
 import monstre.Monstre;
 import java.util.Random;
 
+import inventaire.Inventaire;
+
 public abstract class Personnage {
     private String nom;
     private String sante;
@@ -152,6 +154,10 @@ public abstract class Personnage {
 	public boolean estVivant() {
         return pv > 0;
     }
+	protected Inventaire inventaire = new Inventaire();
+    public Inventaire getInventaire() {
+        return inventaire;
 	}
+}
 
 

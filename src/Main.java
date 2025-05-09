@@ -77,6 +77,14 @@ public class Main {
                 p1.afficherStat();
             }
         }
+        
+        do {
+        	System.out.println("Voulez vous acceder à l'inventaire Y/N");
+        	reponse = scanner.nextLine();
+        }while(!reponse.equals("Y")&&!reponse.equals("N"));
+        if(reponse.equals("Y")) {
+        	p1.getInventaire().afficherInventaire();
+        }
 
 
   
