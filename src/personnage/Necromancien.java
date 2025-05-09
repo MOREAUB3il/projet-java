@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Necromancien  extends Mage{
 	
-	private Necromancien() {
+	public Necromancien() {
         super(nomAleatoire(),"mage");
     }
 	

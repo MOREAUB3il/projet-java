@@ -7,21 +7,79 @@ import event.Shop;
 import inventaire.Inventaire;
 import inventaire.Objet;
 import monstre.Monstre;
+import personnage.Assassin;
+import personnage.Barbare;
+import personnage.Chevalier;
+import personnage.Enchanteur;
+import personnage.Necromancien;
+import personnage.Paladin;
 import personnage.Personnage;
+import personnage.Pretre;
 import personnage.Pyromancien;
 
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        String reponse;
+        do {
+        	System.out.println("Voulez vous creer un nouveau personnage ? Y/N");
+        	reponse = scanner.nextLine();
+        }while(!reponse.equals("Y")&&!reponse.equals("N"));
         
-        Pyromancien pyro = new Pyromancien();
-        Shop shop = new Shop();
-        System.out.println("Création du Pyromancien : " + pyro.getNom());
-        pyro.afficherStat();
+        Personnage p1 = null;
+
+        if (reponse.equals("Y")) {
+            System.out.println("Veuillez choisir la classe :");
+            System.out.println("1 pour Assassin");
+            System.out.println("2 pour Barbare");
+            System.out.println("3 pour Chevalier");
+            System.out.println("4 pour Enchanteur");
+            System.out.println("5 pour Necromancien");
+            System.out.println("6 pour Paladin");
+            System.out.println("7 pour Pretre");
+            System.out.println("8 pour Pyromancien");
+            
+            reponse = scanner.nextLine();
+
+            switch (reponse) {
+                case "1":
+                    p1 = new Assassin();
+                    break;
+                case "2":
+                    p1 = new Barbare();
+                    break;
+                case "3":
+                    p1 = new Chevalier();
+                    break;
+                case "4":
+                    p1 = new Enchanteur();
+                    break;
+                case "5":
+                    p1 = new Necromancien();
+                    break;
+                case "6":
+                    p1 = new Paladin();
+                    break;
+                case "7":
+                    p1 = new Pretre();
+                    break;
+                case "8":
+                    p1 = new Pyromancien();
+                    break;
+                default:
+                    System.out.println("Choix invalide. Aucun personnage créé.");
+                    break;
+            }
+
+            if (p1 != null) {
+                System.out.println("Voici votre personnage");
+                p1.afficherStat();
+            }
+        }
+
+
   
-
-
         
         List<Personnage> joueurs = new ArrayList<>();
         List<Monstre> monstres = new ArrayList<>();
