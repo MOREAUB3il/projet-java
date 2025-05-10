@@ -22,6 +22,15 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String reponse;
+        String reponseInventaire;
+        String reponseShop;
+        String continuer = null;
+        String nom;
+        Shop shop = new Shop();
+        Inventaire inventaire = new Inventaire();
+        
+        System.out.println("Entrer votre pseudo :");
+    	nom = scanner.nextLine();
         do {
         	System.out.println("Voulez vous creer un nouveau personnage ? Y/N");
         	reponse = scanner.nextLine();
@@ -77,21 +86,40 @@ public class Main {
                 p1.afficherStat();
             }
         }
-        
-        do {
-        	System.out.println("Voulez vous acceder à l'inventaire Y/N");
-        	reponse = scanner.nextLine();
-        }while(!reponse.equals("Y")&&!reponse.equals("N"));
-        if(reponse.equals("Y")) {
-        	p1.getInventaire().afficherInventaire();
-        }
+
+
+		do {
+		    System.out.println("Que veux-tu faire ?");
+		    System.out.println("1. Accéder au shop");
+		    System.out.println("2. Accéder à l'inventaire");
+		    System.out.println("0. Quitter");
+		    String choix = scanner.nextLine();
+		
+		    switch (choix) {
+		        case "1":
+		            shop.ouvrir(p1, scanner, p1.getInventaire());
+		            break;
+		        case "2":
+		            p1.getInventaire().afficherInventaire();
+		            break;
+		        case "0":
+		            continuer = "N";
+		            continue;
+		        default:
+		            System.out.println("Choix invalide.");
+		            continue;
+		    }
+		
+		    System.out.println("Voulez-vous continuer ? (Y/N)");
+		    continuer = scanner.nextLine();
+		
+		} while (!continuer.equalsIgnoreCase("N"));
 
 
   
         
         List<Personnage> joueurs = new ArrayList<>();
         List<Monstre> monstres = new ArrayList<>();
-        Inventaire inventaire = new Inventaire();
 
         
         
