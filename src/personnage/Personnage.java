@@ -80,6 +80,10 @@ public abstract class Personnage {
     public String getType() {
 		return type;
 	}
+    public String getType(String type) { return type; }
+    public int getXp() { return xp; }
+    public int getXpPourNiveauSuivant() { return xpPourNiveauSuivant; }
+    
 
 	private static final String[] SANTE_POSSIBLES = {
 	        "en plein forme","en plein forme","en plein forme","en plein forme","en plein forme","en plein forme",

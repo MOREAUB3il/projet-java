@@ -1,4 +1,7 @@
 import java.sql.*;
+import java.util.ArrayList;
+
+import personnage.Personnage;
 
 public class Database {
     private static final String DB_URL = "jdbc:sqlite:savegame.db";
@@ -22,52 +25,168 @@ public class Database {
     }
 
     public void createTables() {
-        String sql = "CREATE TABLE IF NOT EXISTS joueur (" +
-                     "id INTEGER PRIMARY KEY," +
-                     "nom TEXT," +
-                     "sante TEXT," +
-                     "pv INTEGER," +
-                     "pvMax INTEGER," +
-                     "force INTEGER," +
-                     "niveau INTEGER," +
-                     "xp INTEGER," +
-                     "xpPourNiveauSuivant INTEGER," +
-                     "type TEXT," +
-                     ");";
+        String createSauvegarde = """
+            CREATE TABLE IF NOT EXISTS Sauvegarde (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nom_sauvegarde TEXT,
+                date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+                joueur TEXT,
+                numEtage INTEGER
+            );
+        """;
+
+        String createPersonnage = """
+            CREATE TABLE IF NOT EXISTS Personnage (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nom TEXT,
+                sante TEXT,
+                pv INTEGER,
+                pv_max INTEGER,
+                force INTEGER,
+                niveau INTEGER,
+                xp INTEGER,
+                xp_pour_niveau_suivant INTEGER,
+                type TEXT,
+                position INTEGER,
+                sauvegarde_id INTEGER,
+                FOREIGN KEY (sauvegarde_id) REFERENCES Sauvegarde(id) ON DELETE CASCADE
+            );
+        """;
+        String createClassement = """
+        		CREATE TABLE Classement (
+        			id INT PRIMARY KEY AUTO_INCREMENT,
+				    joueur VARCHAR(50),
+				    score INT,
+				    niveau_atteint INT,
+				    date DATETIME DEFAULT CURRENT_TIMESTAMP
+				);
+
+        	""";
 
         try (Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(createSauvegarde);
+            stmt.execute(createPersonnage);
+            stmt.execute(createClassement);
             System.out.println("Tables créées ou déjà existantes.");
         } catch (SQLException e) {
             System.err.println("Erreur SQL : " + e.getMessage());
         }
     }
 
-    public void sauvegarderJoueur(String nom, int niveau, int pv, int pvMax, int force, String sante, int xp, int xpPourNiveauSuivant, String type) {
-        String sql = "INSERT INTO joueur (nom, sante, pv, pvMax, force, niveau, xp, xpPourNiveauuivant, type) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) " +
-					 "ON CONFLICT(nom) DO UPDATE SET " +
-					 "sante = excluded.sante, " +
-					 "pv = excluded.pv, " +
-					 "pvMax = excluded.pvMax, " +
-					 "force = excluded.force, " +
-					 "niveau = excluded.niveau, " +
-					 "xp = excluded.xp, " +
-					 "xpPourNiveauSuivant = excluded.xpPourNiveauSuivant, " +
-					 "type = excluded.type;";
+    public void sauvegarderPersonnage(Personnage p, int sauvegardeId, int position) {
+        String sql = """
+            INSERT INTO Personnage (nom, sante, pv, pv_max, force, niveau, xp, xp_pour_niveau_suivant, type, position, sauvegarde_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+        """;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, p.getNom());
+            pstmt.setString(2, p.getSante());
+            pstmt.setInt(3, p.getPv());
+            pstmt.setInt(4, p.getPvMax());
+            pstmt.setInt(5, p.getForce());
+            pstmt.setInt(6, p.getNiveau());
+            pstmt.setInt(7, p.getXp());
+            pstmt.setInt(8, p.getXpPourNiveauSuivant());
+            pstmt.setString(9, p.getType());
+            pstmt.setInt(10, position);
+            pstmt.setInt(11, sauvegardeId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la sauvegarde du personnage : " + e.getMessage());
+        }
+    }
+
+
+    public void recupererPersonnage(int sauvegardeId) {
+        String sql = "SELECT * FROM Personnage WHERE sauvegarde_id = ? ORDER BY position";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, sauvegardeId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                System.out.println("Nom: " + rs.getString("nom"));
+                System.out.println("Sante: " + rs.getString("sante"));
+                System.out.println("Pv: " + rs.getInt("pv"));
+                System.out.println("Pv Max: " + rs.getInt("pv_max"));
+                System.out.println("Force: " + rs.getInt("force"));
+                System.out.println("Niveau: " + rs.getInt("niveau"));
+                System.out.println("XP: " + rs.getInt("xp"));
+                System.out.println("XP pour Niveau Suivant: " + rs.getInt("xp_pour_niveau_suivant"));
+                System.out.println("Type: " + rs.getString("type"));
+                System.out.println("Position: " + rs.getInt("position"));
+                System.out.println("----------");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur de récupération : " + e.getMessage());
+        }
+    }
+
+    public void supprimerPersonnage(String nom) {
+        String sql = "DELETE FROM Personnage WHERE nom = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, nom);
-            pstmt.setString(2, sante);
-            pstmt.setInt(3, pv);
-            pstmt.setInt(4, pvMax);
-            pstmt.setInt(5, force);
-            pstmt.setInt(6, niveau);
-            pstmt.setInt(7, xp);
-            pstmt.setInt(8, xpPourNiveauSuivant);
-            pstmt.setString(9, type);
             pstmt.executeUpdate();
+            System.out.println("Personnage supprimé : " + nom);
         } catch (SQLException e) {
-            System.err.println("Erreur de sauvegarde : " + e.getMessage());
+            System.err.println("Erreur de suppression : " + e.getMessage());
         }
+    }
+    
+    public void sauvegarderEquipe(ArrayList<Personnage> equipe, int sauvegardeId) {
+        for (int i = 0; i < equipe.size() && i < 4; i++) {
+            Personnage p = equipe.get(i);
+            sauvegarderPersonnage(p, sauvegardeId, i + 1); 
+        }
+    }
+
+
+    public int nbSauv(String joueur) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM Sauvegarde WHERE joueur = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, joueur);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    public void supAncSauv(String joueur) throws SQLException {
+        String sql = "DELETE FROM Sauvegarde WHERE id = (SELECT id FROM Sauvegarde WHERE joueur = ? ORDER BY date_creation ASC LIMIT 1)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, joueur);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void supNouSav(int idSauvegarde, String joueur) throws SQLException {
+        String sql = """
+            DELETE FROM Sauvegarde
+            WHERE joueur = ? AND date_creation > (SELECT date_creation FROM Sauvegarde WHERE id = ?)
+        """;
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, joueur);
+            stmt.setInt(2, idSauvegarde);
+            stmt.executeUpdate();
+        }
+    }
+
+    public int createSauvegarde(String joueur, int numEtage) throws SQLException {
+        if (nbSauv(joueur) >= 5) {
+            supAncSauv(joueur);
+        }
+
+        String sql = "INSERT INTO Sauvegarde ( joueur, numEtage) VALUES ( ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(2, joueur);
+            stmt.setInt(3, numEtage);
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1); 
+            }
+        }
+        return -1;
     }
 }
