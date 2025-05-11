@@ -1,6 +1,5 @@
 import java.sql.*;
 import java.util.ArrayList;
-
 import personnage.Personnage;
 
 public class Database {
@@ -52,16 +51,16 @@ public class Database {
                 FOREIGN KEY (sauvegarde_id) REFERENCES Sauvegarde(id) ON DELETE CASCADE
             );
         """;
-        String createClassement = """
-        		CREATE TABLE Classement (
-        			id INT PRIMARY KEY AUTO_INCREMENT,
-				    joueur VARCHAR(50),
-				    score INT,
-				    niveau_atteint INT,
-				    date DATETIME DEFAULT CURRENT_TIMESTAMP
-				);
 
-        	""";
+        String createClassement = """
+            CREATE TABLE IF NOT EXISTS Classement (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                joueur TEXT,
+                score INTEGER,
+                niveau_atteint INTEGER,
+                date DATETIME DEFAULT CURRENT_TIMESTAMP
+            );
+        """;
 
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(createSauvegarde);
@@ -74,6 +73,8 @@ public class Database {
     }
 
     public void sauvegarderPersonnage(Personnage p, int sauvegardeId, int position) {
+        if (conn == null) return;
+
         String sql = """
             INSERT INTO Personnage (nom, sante, pv, pv_max, force, niveau, xp, xp_pour_niveau_suivant, type, position, sauvegarde_id)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
@@ -97,26 +98,34 @@ public class Database {
         }
     }
 
+    public void sauvegarderEquipe(ArrayList<Personnage> equipe, int sauvegardeId) {
+        if (conn == null) return;
+        for (int i = 0; i < equipe.size() && i < 4; i++) {
+            sauvegarderPersonnage(equipe.get(i), sauvegardeId, i + 1);
+        }
+    }
 
     public void recupererPersonnage(int sauvegardeId) {
+        if (conn == null) return;
+
         String sql = "SELECT * FROM Personnage WHERE sauvegarde_id = ? ORDER BY position";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, sauvegardeId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                System.out.println("Nom: " + rs.getString("nom"));
-                System.out.println("Sante: " + rs.getString("sante"));
-                System.out.println("Pv: " + rs.getInt("pv"));
-                System.out.println("Pv Max: " + rs.getInt("pv_max"));
-                System.out.println("Force: " + rs.getInt("force"));
-                System.out.println("Niveau: " + rs.getInt("niveau"));
-                System.out.println("XP: " + rs.getInt("xp"));
-                System.out.println("XP pour Niveau Suivant: " + rs.getInt("xp_pour_niveau_suivant"));
-                System.out.println("Type: " + rs.getString("type"));
-                System.out.println("Position: " + rs.getInt("position"));
-                System.out.println("----------");
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    System.out.println("Nom: " + rs.getString("nom"));
+                    System.out.println("Sante: " + rs.getString("sante"));
+                    System.out.println("Pv: " + rs.getInt("pv"));
+                    System.out.println("Pv Max: " + rs.getInt("pv_max"));
+                    System.out.println("Force: " + rs.getInt("force"));
+                    System.out.println("Niveau: " + rs.getInt("niveau"));
+                    System.out.println("XP: " + rs.getInt("xp"));
+                    System.out.println("XP pour Niveau Suivant: " + rs.getInt("xp_pour_niveau_suivant"));
+                    System.out.println("Type: " + rs.getString("type"));
+                    System.out.println("Position: " + rs.getInt("position"));
+                    System.out.println("----------");
+                }
             }
         } catch (SQLException e) {
             System.err.println("Erreur de récupération : " + e.getMessage());
@@ -124,6 +133,8 @@ public class Database {
     }
 
     public void supprimerPersonnage(String nom) {
+        if (conn == null) return;
+
         String sql = "DELETE FROM Personnage WHERE nom = ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -134,26 +145,31 @@ public class Database {
             System.err.println("Erreur de suppression : " + e.getMessage());
         }
     }
-    
-    public void sauvegarderEquipe(ArrayList<Personnage> equipe, int sauvegardeId) {
-        for (int i = 0; i < equipe.size() && i < 4; i++) {
-            Personnage p = equipe.get(i);
-            sauvegarderPersonnage(p, sauvegardeId, i + 1); 
-        }
-    }
-
 
     public int nbSauv(String joueur) throws SQLException {
+        if (conn == null) return 0;
+
         String sql = "SELECT COUNT(*) FROM Sauvegarde WHERE joueur = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, joueur);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next() ? rs.getInt(1) : 0;
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
         }
     }
 
     public void supAncSauv(String joueur) throws SQLException {
-        String sql = "DELETE FROM Sauvegarde WHERE id = (SELECT id FROM Sauvegarde WHERE joueur = ? ORDER BY date_creation ASC LIMIT 1)";
+        if (conn == null) return;
+
+        String sql = """
+            DELETE FROM Sauvegarde
+            WHERE id = (
+                SELECT id FROM Sauvegarde
+                WHERE joueur = ?
+                ORDER BY date_creation ASC
+                LIMIT 1
+            );
+        """;
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, joueur);
             stmt.executeUpdate();
@@ -161,9 +177,13 @@ public class Database {
     }
 
     public void supNouSav(int idSauvegarde, String joueur) throws SQLException {
+        if (conn == null) return;
+
         String sql = """
             DELETE FROM Sauvegarde
-            WHERE joueur = ? AND date_creation > (SELECT date_creation FROM Sauvegarde WHERE id = ?)
+            WHERE joueur = ? AND date_creation > (
+                SELECT date_creation FROM Sauvegarde WHERE id = ?
+            );
         """;
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, joueur);
@@ -173,20 +193,25 @@ public class Database {
     }
 
     public int createSauvegarde(String joueur, int numEtage) throws SQLException {
+        if (conn == null) return -1;
+
         if (nbSauv(joueur) >= 5) {
             supAncSauv(joueur);
         }
 
-        String sql = "INSERT INTO Sauvegarde ( joueur, numEtage) VALUES ( ?, ?)";
+        String sql = "INSERT INTO Sauvegarde (joueur, numEtage) VALUES (?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(2, joueur);
-            stmt.setInt(3, numEtage);
+            stmt.setString(1, joueur);
+            stmt.setInt(2, numEtage);
             stmt.executeUpdate();
-            ResultSet rs = stmt.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getInt(1); 
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // ID de la nouvelle sauvegarde
+                }
             }
         }
+
         return -1;
     }
 }
