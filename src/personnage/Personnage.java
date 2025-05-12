@@ -36,6 +36,7 @@ public abstract class Personnage {
     	System.out.println("Pv max :"+getPvMax());
     	System.out.println("Force :"+getForce());
     	System.out.println("Niveau :"+getNiveau());
+    	afficherBarreXp();
     }
 	public String getNom() {
 		return nom;

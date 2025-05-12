@@ -1,5 +1,6 @@
 package monstre;
 
+import java.util.List;
 import java.util.Random;
 import personnage.Personnage;
 import inventaire.Inventaire;
@@ -46,6 +47,8 @@ public class Monstre {
             System.out.println(cible.getNom() + " est tombé malade !");
         }
     }
+    
+    
 
     public void subirDegats(int degats) {
         this.pv -= degats - defence;
@@ -63,9 +66,39 @@ public class Monstre {
     public boolean estVivant() {
         return pv > 0;
     }
+    public static void afficherEquipe(List<Monstre> liste) {
+	    if (liste.isEmpty()) {
+	        System.out.println("Aucun personnage à afficher.");
+	        return;
+	    }
+	    // En-têtes : noms
+	    for (Monstre p : liste) {
+	        System.out.printf("%-25s", p.getNom());
+	    }
+	    System.out.println();
 
+	    // PV
+	    for (Monstre p : liste) {
+	        System.out.printf("Pv            : %-10d", p.getPv());
+	    }
+	    System.out.println();
+	    
+	    // Force
+	    for (Monstre p : liste) {
+	        System.out.printf("Force         : %-10d", p.getForce());
+	    }
+	    System.out.println();
+
+	    // Defence
+	    for (Monstre p : liste) {
+	        System.out.printf("Defence         : %-10d", p.getDefence());
+	    }
+	    System.out.println();
+	 
+	}
     public String getNom() { return nom; }
     public int getDefence() { return defence; }
     public int getPv() { return pv; }
     public int getOrM() {return orM;}
+    public int getForce() { return force; }
 }
