@@ -1,5 +1,7 @@
 package personnage;
 import monstre.Monstre;
+
+import java.util.List;
 import java.util.Random;
 
 import inventaire.Inventaire;
@@ -121,16 +123,18 @@ public abstract class Personnage {
 	public void gagnerXp(int quantite) {
 	    xp += quantite;
 	    System.out.println(nom + " gagne " + quantite + " XP ! (Total : " + xp + "/" + xpPourNiveauSuivant + ")");
-	    afficherBarreXp();
+	    afficherBarreXp(); 
+
 	    while (xp >= xpPourNiveauSuivant) {
 	        xp -= xpPourNiveauSuivant;
 	        niveau++;
-	        xpPourNiveauSuivant *= 1.5; 
+	        xpPourNiveauSuivant *= 1.5;
 	        System.out.println(nom + " monte au niveau " + niveau + " !");
 	        augmenterStats();
-	        afficherBarreXp();
+	        afficherBarreXp(); 
 	    }
 	}
+
 	protected void augmenterStats() {}
 	
 	protected void afficherBarreXp() {
@@ -149,6 +153,71 @@ public abstract class Personnage {
 	    barre.append("]");
 
 	    System.out.println("XP : " + xp + "/" + xpPourNiveauSuivant + " " + barre);
+	}
+	private static String BarreXp(Personnage p) {
+	    int tailleBarre = 20;
+	    double ratio = (double) p.getXp() / p.getXpPourNiveauSuivant();
+	    int nbBlocs = (int) (ratio * tailleBarre);
+
+	    StringBuilder barre = new StringBuilder();
+	    barre.append("XP : ")
+	         .append(p.getXp())
+	         .append("/")
+	         .append(p.getXpPourNiveauSuivant())
+	         .append(" [");
+	    for (int i = 0; i < tailleBarre; i++) {
+	        barre.append(i < nbBlocs ? "█" : "░");
+	    }
+	    barre.append("]");
+	    return barre.toString();
+	}
+
+	public static void afficherEquipe(List<Personnage> liste) {
+	    if (liste.isEmpty()) {
+	        System.out.println("Aucun personnage à afficher.");
+	        return;
+	    }
+
+	    // En-têtes : noms
+	    for (Personnage p : liste) {
+	        System.out.printf("%-25s", p.getNom());
+	    }
+	    System.out.println();
+
+	    // Santé
+	    for (Personnage p : liste) {
+	        System.out.printf("Etat de sante : %-10s", p.getSante());
+	    }
+	    System.out.println();
+
+	    // PV
+	    for (Personnage p : liste) {
+	        System.out.printf("Pv            : %-10d", p.getPv());
+	    }
+	    System.out.println();
+
+	    // PV Max
+	    for (Personnage p : liste) {
+	        System.out.printf("Pv max        : %-10d", p.getPvMax());
+	    }
+	    System.out.println();
+
+	    // Force
+	    for (Personnage p : liste) {
+	        System.out.printf("Force         : %-10d", p.getForce());
+	    }
+	    System.out.println();
+
+	    // Niveau
+	    for (Personnage p : liste) {
+	        System.out.printf("Niveau        : %-10d", p.getNiveau());
+	    }
+	    System.out.println();
+	 // XP bar
+	    for (Personnage p : liste) {
+	        System.out.printf("%-30s", BarreXp(p));
+	    }
+	    System.out.println();
 	}
 
 	public abstract void attaque1(Monstre cible);

@@ -36,7 +36,7 @@ public class Monstre {
     public static Monstre boss(int etage) {
         int pv = etage * 10 + 100;
         int force = etage + 30;
-        return new Monstre("BOSS Étage " + etage, pv, force, 150, 1.0 / 20, 40+ etage);
+        return new Monstre("BOSS Étage " + etage, pv, force, 150, 1.0 / 20, 40 + etage);
     }
     
     public void attaquer(Personnage cible) {
