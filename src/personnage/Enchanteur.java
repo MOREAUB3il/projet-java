@@ -31,7 +31,26 @@ public class Enchanteur extends Support {
         cible.subirDegats(degats);
     }
 
-    public void ulti(Monstre cible){
+    public void ulti(Monstre cible){ //scelle les ennemis( 20,25,30% de force en moins sur 1,2,3 tours) + 10 pv  de soin sur toute la team
+        int force = getForce();
+        int degats = 0;
+
+        if (cible.estVivant()) {
+            if (getNiveau() < 5) {
+                degats = force / 5;
+            } else if (getNiveau() < 15) {
+                degats = force / 4;
+            } else {
+                degats = force / 3;
+            }
+            int soin = 10;
+            this.setPv(this.getPv() + soin);
+            System.out.println(getNom() + " 📜 utilise son ultime sur " + cible.getNom() + " !");
+            System.out.println("Cela inflige " + degats + " dégâts !");
+            cible.subirDegats(degats);
+        } else {
+            System.out.println(cible.getNom() + " est déjà mort !");
+        }
         
     }
 }
