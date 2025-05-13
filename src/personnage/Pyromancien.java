@@ -30,7 +30,7 @@ public class Pyromancien  extends Mage{
         } else {
             degats = getForce() + getMalediction() * cible.getDefence();
         }
-        System.out.println(getNom() + " 🪄 attaque " + cible.getNom() + " avec son baton !");
+        System.out.println(getNom() + " attaque " + cible.getNom() + " avec son baton 🪄 !");
         System.out.println("Cela inflige " + degats + " dégâts !");
         
         cible.subirDegats(degats); 
