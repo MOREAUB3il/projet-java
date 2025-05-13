@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -20,6 +21,8 @@ import personnage.Pyromancien;
 public class Main {
 
     public static void main(String[] args) {
+    	 List<Personnage> joueurs = new ArrayList<>();
+         List<Monstre> monstres = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         String reponse;
         String reponseInventaire;
@@ -83,7 +86,7 @@ public class Main {
 
             if (p1 != null) {
                 System.out.println("Voici votre personnage");
-                p1.afficherStat();
+                afficherEquipe(joueurs);
             }
         }
 
@@ -118,8 +121,7 @@ public class Main {
 
   
         
-        List<Personnage> joueurs = new ArrayList<>();
-        List<Monstre> monstres = new ArrayList<>();
+       
 
         
         
