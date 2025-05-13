@@ -33,5 +33,17 @@ public class Paladin extends Tank {
         
         cible.subirDegats(degats); 
     }
-    
+    public void ulti(Monstre cible){//aggro les monstre et reduit les degats subit de 60,70,80%
+        int reduction = 0;
+        if (getNiveau() < 5) {
+            reduction = 60;
+        } else if (getNiveau() < 15) {
+            reduction = 70;
+        } else {
+            reduction = 80;
+        }
+        
+        System.out.println(getNom() + " ⚔️ utilise son ultime sur " + cible.getNom() + " !");
+        System.out.println("Cela réduit les dégâts subis de " + reduction + "% !");
+    }
 }

@@ -26,12 +26,12 @@ public class Enchanteur extends Support {
     public void attaque1(Monstre cible) {
         int degats = getForce();
 
-        
-
         System.out.println(getNom() + " 🪬 attaque " + cible.getNom() + " avec son sceau !");
         System.out.println("Cela inflige " + degats + " dégâts !");
         cible.subirDegats(degats);
     }
 
- 
+    public void ulti(Monstre cible){
+        
+    }
 }

@@ -34,4 +34,24 @@ public class Chevalier extends Tank {
         cible.subirDegats(degats); 
     }
     
+    public void ulti(Monstre cible){//force + 15,25,50 % hp max Si ennemi meurt + 15% hp(soin) + 5hpMax
+        int force = getForce();
+        int hpMax = getPvMax();
+        int degats = 0;
+
+        if (cible.estVivant()) {
+            if (getNiveau() < 5) {
+                degats = force + (15 * hpMax) / 100;
+            } else if (getNiveau() < 15) {
+                degats = force + (25 * hpMax) / 100;
+            } else {
+                degats = force + (50 * hpMax) / 100;
+            }
+            System.out.println(getNom() + " ⚔️ utilise son ultime sur " + cible.getNom() + " !");
+            System.out.println("Cela inflige " + degats + " dégâts !");
+            cible.subirDegats(degats);
+        } else {
+            System.out.println(cible.getNom() + " est déjà mort !");
+        }
+    }
 }

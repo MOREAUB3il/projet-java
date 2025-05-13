@@ -35,4 +35,8 @@ public class Pyromancien  extends Mage{
         
         cible.subirDegats(degats); 
     }
+
+    public void ulti(Monstre cible){
+        
+    }
 }

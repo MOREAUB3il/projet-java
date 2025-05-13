@@ -33,6 +33,25 @@ public  class Barbare extends Dps {
         
         cible.subirDegats(degats); 
     }
+    public void ulti(Monstre cible){ // force + penetration*2+ regene 15,30,60% des degats}
+        int force = getForce();
+        int penetration = getPenetration();
+        int degats = 0;
 
+        if (cible.estVivant()) {
+            if (getNiveau() < 5) {
+                degats = force + 2 * penetration + (15 * force) / 100;
+            } else if (getNiveau() < 15) {
+                degats = force + 2 * penetration + (30 * force) / 100;
+            } else {
+                degats = force + 2 * penetration + (60 * force) / 100;
+            }
+            System.out.println(getNom() + " ⚔️ utilise son ultime sur " + cible.getNom() + " !");
+            System.out.println("Cela inflige " + degats + " dégâts !");
+            cible.subirDegats(degats);
+        } else {
+            System.out.println(cible.getNom() + " est déjà mort !");
+        }
 
+    }
 }

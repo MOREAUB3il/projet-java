@@ -36,4 +36,7 @@ public class Necromancien  extends Mage{
         
         cible.subirDegats(degats); 
     }
+    public void ulti(Monstre cible){
+        
+    }
 }

@@ -31,5 +31,8 @@ public class Pretre extends Support {
         cible.subirDegats(degats);
     }
 
+    public void ulti(Monstre cible){
+        
+    }
  
 }
