@@ -23,12 +23,10 @@ public class Pretre extends Support {
 
     public void attaque1(Monstre cible) {
         int degats = getForce();
-        if (equipe.size() >= 2) {
-        	soinCibleFaible(equipe);
-			
-		}
-        System.out.println(getNom() + " 🪬 attaque " + cible.getNom() + " avec son sceau !");
+        
+        System.out.println(getNom() + "  attaque " + cible.getNom() + " avec son sceau 🪬 !");
         System.out.println("Cela inflige " + degats + " dégâts !");
+        
         cible.subirDegats(degats);
     }
 

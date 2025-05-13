@@ -28,7 +28,7 @@ public class Paladin extends Tank {
         } else {
             degats = getForce() + (100  * getDefense()) / 100;
         }
-        System.out.println(getNom() + " ⚔️ attaque " + cible.getNom() + " avec son marteau de guerre !");
+        System.out.println(getNom() + "  attaque " + cible.getNom() + " avec son marteau de guerre 🔨!");
         System.out.println("Cela inflige " + degats + " dégâts !");
         
         cible.subirDegats(degats); 

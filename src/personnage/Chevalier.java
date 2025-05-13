@@ -28,7 +28,7 @@ public class Chevalier extends Tank {
         } else {
             degats = getForce() + (15 * getPv()) / 100;
         }
-        System.out.println(getNom() + " ⚔️ attaque " + cible.getNom() + " avec son épée !");
+        System.out.println(getNom() + "  attaque " + cible.getNom() + " avec son épée ⚔️ !");
         System.out.println("Cela inflige " + degats + " dégâts !");
         
         cible.subirDegats(degats); 

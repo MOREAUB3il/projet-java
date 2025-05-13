@@ -28,7 +28,7 @@ public class Enchanteur extends Support {
 
         
 
-        System.out.println(getNom() + " 🪬 attaque " + cible.getNom() + " avec son sceau !");
+        System.out.println(getNom() + "  attaque " + cible.getNom() + " avec son sceau 🪬 !");
         System.out.println("Cela inflige " + degats + " dégâts !");
         cible.subirDegats(degats);
     }
