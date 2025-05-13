@@ -23,15 +23,15 @@ public class Monstre {
         this.orM = or;
     }
     public static Monstre monstreFaible() {
-        return new Monstre("Monstre Faible", 25, 5, 15, 1.0 / 50, 10);
+        return new Monstre("Monstre Faible", 25, 5, 5, 1.0 / 50, 10);
     }
 
     public static Monstre monstreMoyen() {
-        return new Monstre("Monstre Moyen", 50, 15, 25, 1.0 / 30, 20);
+        return new Monstre("Monstre Moyen", 50, 15, 10, 1.0 / 30, 20);
     }
 
     public static Monstre monstreFort() {
-        return new Monstre("Monstre Fort", 100, 30, 45, 1.0 / 20, 30);
+        return new Monstre("Monstre Fort", 100, 30, 20, 1.0 / 20, 30);
     }
 
     public static Monstre boss(int etage) {
@@ -57,7 +57,7 @@ public class Monstre {
     }
     public void estMort(Inventaire inventaire) {
     	if(pv <= 0) {
-    		System.out.println(nom + " es mort " );
+    		System.out.println(nom + " est mort " );
 			inventaire.ajouterOr(orM);
 			System.out.println("Vous avez gagné " + orM + " pièces d'or !");
     	}
