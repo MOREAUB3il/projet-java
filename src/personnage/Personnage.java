@@ -173,7 +173,7 @@ public abstract class Personnage {
 	    return barre.toString();
 	}
 
-	public static void afficherEquipe(List<Personnage> liste) {
+	public static void afficherEquipeP(List<Personnage> liste) {
 	    if (liste.isEmpty()) {
 	        System.out.println("Aucun personnage à afficher.");
 	        return;

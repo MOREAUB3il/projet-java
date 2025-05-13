@@ -66,7 +66,7 @@ public class Monstre {
     public boolean estVivant() {
         return pv > 0;
     }
-    public static void afficherEquipe(List<Monstre> liste) {
+    public static void afficherEquipeM(List<Monstre> liste) {
 	    if (liste.isEmpty()) {
 	        System.out.println("Aucun personnage à afficher.");
 	        return;
