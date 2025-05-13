@@ -30,27 +30,34 @@ public class Main {
         int Choix;
         Shop shop = new Shop();
         Inventaire inventaire = new Inventaire();
+        List<Personnage> joueurs = new ArrayList<>();
+        List<Monstre> monstres = new ArrayList<>();
         
         System.out.println("Entrer votre pseudo :");
     	nom = scanner.nextLine();
     	do {
+    		
 	        do {
+	        	if(etage<=4) {
 	        	System.out.println("Voulez vous creer un nouveau personnage ? Y/N");
 	        	reponse = scanner.nextLine();
+	        	}else {
+	        		reponse = "N";
+	        	}
 	        }while(!reponse.equalsIgnoreCase("Y")&&!reponse.equalsIgnoreCase("N"));
 	        
 	        Personnage p1 = null;
 	
 	        if (reponse.equalsIgnoreCase("Y")) {
 	            System.out.println("Veuillez choisir la classe :");
-	            System.out.println("1 pour Assassin");
-	            System.out.println("2 pour Barbare");
-	            System.out.println("3 pour Chevalier");
-	            System.out.println("4 pour Enchanteur");
-	            System.out.println("5 pour Necromancien");
-	            System.out.println("6 pour Paladin");
-	            System.out.println("7 pour Pretre");
-	            System.out.println("8 pour Pyromancien");
+	            System.out.println("1. Assassin");
+	            System.out.println("2. Barbare");
+	            System.out.println("3. Chevalier");
+	            System.out.println("4. Enchanteur");
+	            System.out.println("5. Necromancien");
+	            System.out.println("6. Paladin");
+	            System.out.println("7. Pretre");
+	            System.out.println("8. Pyromancien");
 	            
 	            reponse = scanner.nextLine();
 	
@@ -88,15 +95,20 @@ public class Main {
 	            if (p1 != null) {
 	                System.out.println("Voici votre personnage");
 	                p1.afficherStat();
+	                joueurs.add(p1);
 	            }
+    		
 	        
 	
-	
+	        continuer = "Y";
 			do {
 				System.out.println("Etage :"+etage);
+				System.out.println();
+				System.out.println();
 			    System.out.println("Que veux-tu faire ?");
 			    System.out.println("1. Accéder au shop");
 			    System.out.println("2. Accéder à l'inventaire");
+			    System.out.println("3. Afficher l'équipe");
 			    System.out.println("0. Partir au combat");
 			    String choix = scanner.nextLine();
 			
@@ -107,6 +119,9 @@ public class Main {
 			        case "2":
 			            p1.getInventaire().afficherInventaire();
 			            break;
+			        case "3":
+			        	Personnage.afficherEquipeP(joueurs);
+			        	break;
 			        case "0":
 			            continuer = "N";
 			            System.out.println("Phase de combat");
@@ -124,9 +139,9 @@ public class Main {
 	
 	  
 	        
-	        List<Personnage> joueurs = new ArrayList<>();
-	        joueurs.add(p1);
-	        List<Monstre> monstres = new ArrayList<>();
+	       
+	        
+	   
 	        Monstre m1 = Monstre.monstreFaible();
 	        monstres.add(m1);
 	        
@@ -137,6 +152,7 @@ public class Main {
 	            // --- TOUR DES JOUEURS (4 Points d'Action pour l'équipe) ---
 	            System.out.println("\n=== TOUR DES JOUEURS ===");
 	            int pointsActionEquipe = 4;
+	            Monstre.afficherEquipeM(monstres);
 	
 	            for (int pa = 0; pa < pointsActionEquipe; pa++) {
 	                if (joueurs.isEmpty() || monstres.isEmpty()) break;
