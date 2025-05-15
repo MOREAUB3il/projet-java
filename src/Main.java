@@ -242,9 +242,9 @@ public class Main {
 	                        int choixCoequipier = scanner.nextInt();
 	                        scanner.nextLine();
 	                        if (choixCoequipier > 0 && choixCoequipier < joueurs.size()) {
+	                        	String nomCoéquipier = joueurs.get(choixCoequipier).getNom();
 	                            Collections.swap(joueurs, 0, choixCoequipier);
-	                            System.out.println(joueurActif.getNom() + " a échangé sa place avec " + joueurs.get(choixCoequipier).getNom() + ".");
-	                        } else {
+	                            System.out.println(joueurActif.getNom() + " a échangé sa place avec " + nomCoéquipier + ".");	                        } else {
 	                            System.out.println("Changement de place annulé.");
 	                            actionEffectuee = false;
 	                            pa--;
@@ -253,7 +253,8 @@ public class Main {
 	                }
 	
 	                if (actionEffectuee && !joueurs.isEmpty() && joueurs.contains(joueurActif)) {
-	                    joueurs.remove(0);
+	                	int index = joueurs.indexOf(joueurActif);
+	                    joueurs.remove(index);
 	                    joueurs.add(joueurActif);
 	                }
 	                if (monstres.isEmpty() || joueurs.isEmpty()) break;
