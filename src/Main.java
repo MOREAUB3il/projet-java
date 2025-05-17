@@ -104,7 +104,7 @@ public class Main {
 
                 switch (choix) {
                     case "1":
-                        shop.ouvrir(joueurs.get(0), scanner, inventaire);
+                        shop.ouvrir(scanner, inventaire);
                         break;
                     case "2":
                         inventaire.afficherInventaire();

@@ -22,7 +22,7 @@ public class Shop {
         stock.add(Objet.collierLegendaire());
     }
 
-    public void ouvrir(Personnage joueur, Scanner scanner, Inventaire inventaire ) {
+    public void ouvrir(Scanner scanner, Inventaire inventaire ) {
         System.out.println("Bienvenue au magasin !");
 
         while (true) {
