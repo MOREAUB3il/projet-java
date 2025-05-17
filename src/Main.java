@@ -37,107 +37,100 @@ public class Main {
     	nom = scanner.nextLine();
     	do {
     		
-	        do {
-	        	if(etage<=4) {
-	        	System.out.println("Voulez vous creer un nouveau personnage ? Y/N");
-	        	reponse = scanner.nextLine();
-	        	}else {
-	        		reponse = "N";
-	        	}
-	        }while(!reponse.equalsIgnoreCase("Y")&&!reponse.equalsIgnoreCase("N"));
-	        
-	        Personnage p1 = null;
-	
-	        if (reponse.equalsIgnoreCase("Y")) {
-	            System.out.println("Veuillez choisir la classe :");
-	            System.out.println("1. Assassin");
-	            System.out.println("2. Barbare");
-	            System.out.println("3. Chevalier");
-	            System.out.println("4. Enchanteur");
-	            System.out.println("5. Necromancien");
-	            System.out.println("6. Paladin");
-	            System.out.println("7. Pretre");
-	            System.out.println("8. Pyromancien");
-	            
-	            reponse = scanner.nextLine();
-	
-	            switch (reponse) {
-	                case "1":
-	                    p1 = new Assassin();
-	                    break;
-	                case "2":
-	                    p1 = new Barbare();
-	                    break;
-	                case "3":
-	                    p1 = new Chevalier();
-	                    break;
-	                case "4":
-	                    p1 = new Enchanteur();
-	                    break;
-	                case "5":
-	                    p1 = new Necromancien();
-	                    break;
-	                case "6":
-	                    p1 = new Paladin();
-	                    break;
-	                case "7":
-	                    p1 = new Pretre();
-	                    break;
-	                case "8":
-	                    p1 = new Pyromancien();
-	                    break;
-	                default:
-	                    System.out.println("Choix invalide. Aucun personnage créé.");
-	                    break;
-	            }
-	        }
-	
-	            if (p1 != null) {
-	                System.out.println("Voici votre personnage");
-	                p1.afficherStat();
-	                joueurs.add(p1);
-	            }
+    		if (etage <= 4) {
+                System.out.println("Création d'un nouveau personnage...");
+                System.out.println(" ");
+                System.out.println(" ");
+                System.out.println("Veuillez choisir une classe pour votre personnage :");
+                System.out.println("1. Assassin");
+                System.out.println("2. Barbare");
+                System.out.println("3. Chevalier");
+                System.out.println("4. Enchanteur");
+                System.out.println("5. Nécromancien");
+                System.out.println("6. Paladin");
+                System.out.println("7. Prêtre");
+                System.out.println("8. Pyromancien");
+
+                String choixClasse = scanner.nextLine();
+                Personnage p = null;
+
+                switch (choixClasse) {
+                    case "1":
+                    	p = new Assassin();
+                    	break;
+                    case "2":
+                    	p = new Barbare();
+                    	break;
+                    case "3":
+                    	p = new Chevalier();
+                    	break;
+                    case "4":
+                    	p = new Enchanteur();
+                    	break;
+                    case "5":
+                    	p = new Necromancien();
+                    	break;
+                    case "6":
+                    	p = new Paladin();
+                    	break;
+                    case "7":
+                    	p = new Pretre(); 
+                    	break;
+                    case "8":
+                    	p = new Pyromancien();
+                    	break;
+                    default:
+                        System.out.println("Choix invalide. Aucun personnage créé.");
+                        break;
+                }
+
+                if (p != null) {
+                    joueurs.add(p);
+                    System.out.println("Personnage ajouté à l'équipe :");
+                    p.afficherStat();
+                }
+            }
     		
 	        
+    		continuer = "Y";
+            do {
+                System.out.println("Que voulez vous faire ?");
+                System.out.println("1. Accéder au shop");
+                System.out.println("2. Accéder à l'inventaire");
+                System.out.println("3. Afficher l'équipe");
+                System.out.println("0. Partir au combat");
+
+                String choix = scanner.nextLine();
+
+                switch (choix) {
+                    case "1":
+                        shop.ouvrir(joueurs.get(0), scanner, inventaire);
+                        break;
+                    case "2":
+                        inventaire.afficherInventaire();
+                        break;
+                    case "3":
+                        Personnage.afficherEquipeP(joueurs);
+                        break;
+                    case "0":
+                        continuer = "N";
+                        System.out.println("Phase de combat lancée...");
+                        break;
+                    default:
+                        System.out.println("Choix invalide.");
+                        break;
+                }
+
+                if (!choix.equals("0")) {
+                    System.out.println("Voulez-vous continuer dans la phase de préparation ? (Y/N)");
+                    continuer = scanner.nextLine();
+                }
+
+            } while (!continuer.equalsIgnoreCase("N"));
 	
-	        continuer = "Y";
-			do {
-				System.out.println("Etage :"+etage);
-				System.out.println();
-				System.out.println();
-			    System.out.println("Que veux-tu faire ?");
-			    System.out.println("1. Accéder au shop");
-			    System.out.println("2. Accéder à l'inventaire");
-			    System.out.println("3. Afficher l'équipe");
-			    System.out.println("0. Partir au combat");
-			    String choix = scanner.nextLine();
-			
-			    switch (choix) {
-			        case "1":
-			            shop.ouvrir(p1, scanner, p1.getInventaire());
-			            break;
-			        case "2":
-			            p1.getInventaire().afficherInventaire();
-			            break;
-			        case "3":
-			        	Personnage.afficherEquipeP(joueurs);
-			        	break;
-			        case "0":
-			            continuer = "N";
-			            System.out.println("Phase de combat");
-			            continue;
-			        default:
-			            System.out.println("Choix invalide.");
-			            continue;
-			    }
-			
-			    System.out.println("Voulez-vous continuer ? (Y/N)");
-			    continuer = scanner.nextLine();
-			
-			} while (!continuer.equalsIgnoreCase("N"));
 	
-	
-	  
+            
+
 	        
 	       
 	        
@@ -287,7 +280,8 @@ public class Main {
 	        System.out.println("1--passer à l'étage suivant ");
 	        System.out.println("2-- quitter");
 	        Choix = scanner.nextInt();
-	        etage = etage + 1;
+	        scanner.nextLine();
+;	        etage = etage + 1;
     	}while(Choix ==1);
     }
     
