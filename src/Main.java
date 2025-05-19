@@ -191,7 +191,7 @@ public class Main {
 	                        break;
 	
 	                    case 2: // Utiliser un objet
-	                        if (inventaire.getOr() == 0) {
+	                        if (inventaire.estVide()) {
 	                            System.out.println(joueurActif.getNom() + " n'a pas d'objets !");
 	                            actionEffectuee = false;
 	                            pa--;
