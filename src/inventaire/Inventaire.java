@@ -112,4 +112,13 @@ public class Inventaire {
         }
         return false;
     }
+    public boolean estVide() {
+    	for(Objet o : objetsSpecifiques) {
+    		if(o != null) {
+    			return false;
+    		}
+    	
+    	}
+    	return true;
+    }
 }
