@@ -16,6 +16,8 @@ public abstract class Personnage {
     protected int xp;
     protected int xpPourNiveauSuivant;
     private String type;
+    protected int compLvl;
+    protected int ultLvl;
 
 
     public Personnage(String nom, String type) {
@@ -28,15 +30,25 @@ public abstract class Personnage {
         this.xp = 0;
         this.xpPourNiveauSuivant = 100;
         this.type = type;
+        this.compLvl = 1; 
+        this.ultLvl = 0; 
     }
     public void afficherStat() {
+    	System.out.println("------------------------------");
     	System.out.println(getNom());
+    	System.out.println("Classe : " + this.getClass().getSimpleName() + " (" + getType() + ")");
     	System.out.println("Etat de sante :"+getSante());
-    	System.out.println("Pv :"+getPv());
-    	System.out.println("Pv max :"+getPvMax());
+    	System.out.println("Pv :"+getPv() + "/" + getPvMax());
     	System.out.println("Force :"+getForce());
+        if (this instanceof Tank) System.out.println("Défense : " + ((Tank)this).getDefense());
+        if (this instanceof Dps) System.out.println("Pénétration : " + ((Dps)this).getPenetration());
+        if (this instanceof Mage) System.out.println("Malédiction : " + ((Mage)this).getMalediction());
+        if (this instanceof Support) System.out.println("Soin : " + ((Support)this).getSoin());
     	System.out.println("Niveau :"+getNiveau());
+        System.out.println("Compétence Niv.: " + getCompLvl());
+        System.out.println("Ultime Niv.: " + (getUltLvl() > 0 ? getUltLvl() : "Non débloqué"));
     	afficherBarreXp();
+        System.out.println("------------------------------");
     }
 	public String getNom() {
 		return nom;
@@ -86,7 +98,8 @@ public abstract class Personnage {
     public String getType(String type) { return type; }
     public int getXp() { return xp; }
     public int getXpPourNiveauSuivant() { return xpPourNiveauSuivant; }
-    
+    public int getCompLvl() {return compLvl;}
+    public int getUltLvl() {return ultLvl;}
 
 	private static final String[] SANTE_POSSIBLES = {
 	        "en plein forme","en plein forme","en plein forme","en plein forme","en plein forme","en plein forme",
@@ -124,15 +137,16 @@ public abstract class Personnage {
 	public void gagnerXp(int quantite) {
 	    xp += quantite;
 	    System.out.println(nom + " gagne " + quantite + " XP ! (Total : " + xp + "/" + xpPourNiveauSuivant + ")");
-	    afficherBarreXp(); 
+	    afficherBarreXp();
 
 	    while (xp >= xpPourNiveauSuivant) {
 	        xp -= xpPourNiveauSuivant;
 	        niveau++;
-	        xpPourNiveauSuivant *= 1.5;
+	        xpPourNiveauSuivant = (int) (xpPourNiveauSuivant * 1.25) + 50; 
 	        System.out.println(nom + " monte au niveau " + niveau + " !");
 	        augmenterStats();
-	        afficherBarreXp(); 
+	        verifierAmeliorationsCompetences(); 
+	        afficherBarreXp();
 	    }
 	}
 
@@ -178,43 +192,54 @@ public abstract class Personnage {
 	        System.out.println("Aucun personnage à afficher.");
 	        return;
 	    }
-
-	    // En-têtes : noms
 	    for (Personnage p : liste) {
 	        System.out.printf("%-25s", p.getNom());
 	    }
 	    System.out.println();
-
-	    // Santé
 	    for (Personnage p : liste) {
 	        System.out.printf("Etat de sante : %-10s", p.getSante());
 	    }
 	    System.out.println();
-
-	    // PV
 	    for (Personnage p : liste) {
 	        System.out.printf("Pv            : %-10d", p.getPv());
 	    }
 	    System.out.println();
-
-	    // PV Max
 	    for (Personnage p : liste) {
 	        System.out.printf("Pv max        : %-10d", p.getPvMax());
 	    }
 	    System.out.println();
-
-	    // Force
 	    for (Personnage p : liste) {
 	        System.out.printf("Force         : %-10d", p.getForce());
 	    }
 	    System.out.println();
-
-	    // Niveau
+	    if (liste.get(0) instanceof Tank) {
+	        for (Personnage p : liste) {
+	            System.out.printf("Défense       : %-10d", ((Tank)p).getDefense());
+	        }
+	        System.out.println();
+	    }
+	    if (liste.get(0) instanceof Dps) {
+	        for (Personnage p : liste) {
+	            System.out.printf("Pénétration   : %-10d", ((Dps)p).getPenetration());
+	        }
+	        System.out.println();
+	    }
+	    if (liste.get(0) instanceof Mage) {
+	        for (Personnage p : liste) {
+	            System.out.printf("Malédiction   : %-10d", ((Mage)p).getMalediction());
+	        }
+	        System.out.println();
+	    }
+	    if (liste.get(0) instanceof Support) {
+	        for (Personnage p : liste) {
+	            System.out.printf("Soin          : %-10d", ((Support)p).getSoin());
+	        }
+	        System.out.println();
+	    }
 	    for (Personnage p : liste) {
 	        System.out.printf("Niveau        : %-10d", p.getNiveau());
 	    }
 	    System.out.println();
-	 // XP bar
 	    for (Personnage p : liste) {
 	        System.out.printf("%-30s", BarreXp(p));
 	    }
@@ -225,6 +250,38 @@ public abstract class Personnage {
 
 	public abstract void ulti(Monstre cible);
 	
+	 private void verifierAmeliorationsCompetences() {
+
+	        if (this.niveau == 5 && this.compLvl < 2) {
+	            this.compLvl = 2;
+	            System.out.println("-> " + this.nom + " : Compétence améliorée (Niv. " + this.compLvl + ") !");
+	        }
+	        if (this.niveau == 10 && this.ultLvl == 0) {
+	            this.ultLvl = 1;
+	            System.out.println("-> " + this.nom + " : ULTIME DÉBLOQUÉ !");
+	        }
+	        if (this.niveau == 15 && this.compLvl < 3) {
+	            this.compLvl = 3;
+	            System.out.println("-> " + this.nom + " : Compétence améliorée (Niv. " + this.compLvl + ") !");
+	        }
+	        if (this.niveau == 20 && this.ultLvl < 2) {
+	            this.ultLvl = 2;
+	            System.out.println("-> " + this.nom + " : Ultime amélioré (Niv. " + this.ultLvl + ") !");
+	        }
+	        if (this.niveau == 30 && this.compLvl < 4) { 
+	            this.compLvl = 4;
+	            System.out.println("-> " + this.nom + " : Compétence améliorée (Niv. " + this.compLvl + ") !");
+	        }
+	        if (this.niveau == 40 && this.ultLvl < 3) {
+	            this.ultLvl = 3;
+	            System.out.println("-> " + this.nom + " : Ultime amélioré (Niv. " + this.ultLvl + ") !");
+	        }
+	        if (this.niveau == 50 && this.ultLvl < 4) {
+	            this.ultLvl = 4;
+	            System.out.println("-> " + this.nom + " : Ultime amélioré (Niv. " + this.ultLvl + ") !");
+	        }
+	    }
+	 
 	public abstract void subirDegats(int degats);
 	
 	public boolean estVivant() {

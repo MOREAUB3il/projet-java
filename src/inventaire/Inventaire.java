@@ -1,14 +1,23 @@
 package inventaire;
 
-import personnage.Personnage;
+import java.util.List;
+import java.util.Scanner;
 
+import personnage.Personnage;
 
 public class Inventaire {
     private int or;
 
     
     private Objet[] objetsSpecifiques;
-
+    
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_BOLD = "\u001B[1m";
     
     private static final String[] NOMS_OBJETS_PAR_SLOT = {
         Objet.potionCommune().getNom(),     //  0
@@ -88,7 +97,98 @@ public class Inventaire {
         }
         System.out.println("------------------");
     }
+    public boolean utiliserObjetInteractive(Scanner scanner, Personnage utilisateur, List<Personnage> ciblesPotentielles) {
+        if (estVide()) {
+            System.out.println(ANSI_YELLOW + "L'inventaire est vide, aucun objet à utiliser." + ANSI_RESET);
+            return false;
+        }
 
+        afficherInventaire();
+        System.out.print(ANSI_CYAN + "Choisissez un objet à utiliser (entrez le numéro du slot 1-" + objetsSpecifiques.length + ") ou 0 pour annuler : " + ANSI_RESET);
+        
+        int choixSlotInput;
+        if (scanner.hasNextInt()) {
+            choixSlotInput = scanner.nextInt();
+        } else {
+            scanner.nextLine(); 
+            System.out.println(ANSI_RED + "Entrée invalide." + ANSI_RESET);
+            return false;
+        }
+        scanner.nextLine();
+
+        if (choixSlotInput == 0) {
+            System.out.println(ANSI_YELLOW + "Utilisation d'objet annulée." + ANSI_RESET);
+            return false;
+        }
+
+        int choixSlotIndex = choixSlotInput - 1; 
+
+        if (choixSlotIndex < 0 || choixSlotIndex >= objetsSpecifiques.length || objetsSpecifiques[choixSlotIndex] == null) {
+            System.out.println(ANSI_RED + "Slot invalide ou vide." + ANSI_RESET);
+            return false;
+        }
+
+        Objet objetAUtiliser = objetsSpecifiques[choixSlotIndex];
+
+       
+        if (ciblesPotentielles.isEmpty()) {
+            System.out.println(ANSI_RED + "Aucune cible disponible pour l'objet." + ANSI_RESET);
+            return false;
+        }
+
+        System.out.println(ANSI_CYAN + "Sur quel membre de l'équipe utiliser " + ANSI_GREEN + objetAUtiliser.getNom() + ANSI_CYAN + "?" + ANSI_RESET);
+        for (int i = 0; i < ciblesPotentielles.size(); i++) {
+            System.out.println("  " + (i + 1) + ". " + ciblesPotentielles.get(i).getNom() + " (PV: " + ciblesPotentielles.get(i).getPv() + "/" + ciblesPotentielles.get(i).getPvMax() + ")");
+        }
+        System.out.print("Votre choix (numéro de personnage) ou 0 pour annuler : ");
+        
+        int choixCibleInput;
+        if (scanner.hasNextInt()) {
+            choixCibleInput = scanner.nextInt();
+        } else {
+            scanner.nextLine(); 
+            System.out.println(ANSI_RED + "Entrée invalide." + ANSI_RESET);
+            return false;
+        }
+        scanner.nextLine(); 
+
+        if (choixCibleInput == 0) {
+            System.out.println(ANSI_YELLOW + "Utilisation d'objet annulée." + ANSI_RESET);
+            return false;
+        }
+
+        int choixCibleIndex = choixCibleInput - 1;
+
+        if (choixCibleIndex < 0 || choixCibleIndex >= ciblesPotentielles.size()) {
+            System.out.println(ANSI_RED + "Choix de cible invalide." + ANSI_RESET);
+            return false;
+        }
+
+        Personnage cibleObjet = ciblesPotentielles.get(choixCibleIndex);
+
+        
+        System.out.println(ANSI_YELLOW + utilisateur.getNom() + ANSI_RESET + " utilise " + ANSI_GREEN + objetAUtiliser.getNom() + ANSI_RESET + " sur " + ANSI_YELLOW + cibleObjet.getNom() + ANSI_RESET + ".");
+        objetAUtiliser.utiliser(cibleObjet);
+        
+        objetsSpecifiques[choixSlotIndex] = null; 
+        System.out.println(ANSI_GREEN + objetAUtiliser.getNom() + ANSI_RESET + " a été consommé.");
+        
+        return true; 
+    }
+
+    public boolean estVide() {
+        for (Objet o : objetsSpecifiques) {
+            if (o != null) return false;
+         }
+         return true; 
+    }
+    public void ouvrir(Inventaire inventaireEquipe, Scanner scanner) {
+         System.out.println("Bienvenue au magasin !");
+         while (true) {
+              System.out.println("Or de l'équipe : " + inventaireEquipe.getOr());
+         }
+    }
+    public int getTailleMaxObjets() { return objetsSpecifiques.length; }
     public int getOr() {
         return or;
     }
