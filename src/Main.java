@@ -204,10 +204,12 @@ public class Main {
 	                        scanner.nextLine();
 	                        if (choixObjet > 0 && choixObjet <= 6) {
 	                            System.out.println("Choisissez un personnage (1-4) ou 0 pour annuler :");
-	                            int c = scanner.nextInt();
+	                            for (int i = 0; i < joueurs.size(); i++) {
+		                            System.out.println("  " + (i+1) + ". " + joueurs.get(i).getNom());
+		                        }	                            int c = scanner.nextInt();
 	                            Personnage cible = joueurs.get(c - 1);
 	                            if (choixObjet != 0) {
-	                                inventaire.utiliserObjet(choixObjet, joueurActif, cible);
+	                                inventaire.utiliserObjet(choixObjet-1, joueurActif, cible);
 	                            } else {
 	                                System.out.println("Action annulée.");
 	                                actionEffectuee = false;
