@@ -2,6 +2,7 @@ package personnage;
 
 import monstre.Monstre;
 import java.util.Random;
+import jeu.Main;
 
 public class Paladin extends Tank {
     
@@ -28,22 +29,20 @@ public class Paladin extends Tank {
         } else {
             degats = getForce() + (100  * getDefense()) / 100;
         }
-        System.out.println(getNom() + "  attaque " + cible.getNom() + " avec son marteau de guerre 🔨!");
+        System.out.println(Main.ANSI_CYAN + getNom() + "  attaque " + cible.getNom() + " avec son marteau de guerre 🔨!" + Main.ANSI_RESET);
         System.out.println("Cela inflige " + degats + " dégâts !");
         
         cible.subirDegats(degats); 
     }
-    public void ulti(Monstre cible){//aggro les monstre et reduit les degats subit de 60,70,80%
-        int reduction = 0;
-        if (getNiveau() < 5) {
-            reduction = 60;
-        } else if (getNiveau() < 15) {
-            reduction = 70;
-        } else {
-            reduction = 80;
-        }
+    public void ulti(Monstre cible) { 
         
-        System.out.println(getNom() + " ⚔️ utilise son ultime sur " + cible.getNom() + " !");
-        System.out.println("Cela réduit les dégâts subis de " + reduction + "% !");
+
+        System.out.println(Main.ANSI_BOLD + Main.ANSI_CYAN + getNom() + " invoque la Protection Divine ! 🛡️✨" + Main.ANSI_RESET);
+
+
+        this.appliquerEffet(EffetTemporaire.buffDefenseMajeur());
     }
+    
 }
+
+	
