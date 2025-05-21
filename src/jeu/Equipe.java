@@ -16,16 +16,10 @@ import personnage.Necromancien;
 import personnage.Paladin;
 import personnage.Pretre;
 import personnage.Pyromancien;
+import jeu.Main;
 
 
 public class Equipe {
-	public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String ANSI_GREEN = "\u001B[32m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_BOLD = "\u001B[1m";
     private List<Personnage> membres;
     private Inventaire inventaireCommun;
     public static final int TAILLE_MAX_EQUIPE = 4;
@@ -61,25 +55,25 @@ public class Equipe {
             this.membres.add(personnage);
             System.out.println(personnage.getNom() + " a rejoint l'équipe !");
         } else if (!peutAjouterMembre()) {
-            System.out.println("L'équipe est déjà complète (" + TAILLE_MAX_EQUIPE + " personnages).");
+            System.out.println(Main.ANSI_BOLD + "L'équipe est déjà complète (" + TAILLE_MAX_EQUIPE + " personnages)." + Main.ANSI_RESET);
         } else {
             System.out.println("Un personnage de la classe " + personnage.getClass().getSimpleName() + " est déjà dans l'équipe.");
         }
     }
 
-    public void choisirEtAjouterPersonnageInitial(Scanner scanner) {
+    public void choisirEtAjouterPersonnageInitial(Scanner scanner,Equipe equipeDuJoueur,int etage,String nomJoueur) {
         if (!peutAjouterMembre()) {
             System.out.println("L'équipe est déjà au complet pour le personnage initial.");
             return;
         }
-        System.out.println("Choisissez votre premier personnage :");
-        Personnage nouveauMembre = selectionnerClassePersonnage(scanner);
+        System.out.println("=== Choisissez votre premier personnage ===");
+        Personnage nouveauMembre = selectionnerClassePersonnage(scanner,equipeDuJoueur, etage, nomJoueur);
         if (nouveauMembre != null) {
             ajouterMembre(nouveauMembre);
         }
     }
 
-    public void proposerChoixNouveauPersonnage(Scanner scanner, int etage) {
+    public void proposerChoixNouveauPersonnage(Scanner scanner,Equipe equipeDuJoueur,int etage,String nomJoueur) {
 
         boolean proposerChoix = false;
         if (membres.size() == 1 && etage > 1) { 
@@ -94,7 +88,7 @@ public class Equipe {
         if (peutAjouterMembre() && proposerChoix) {
             System.out.println("\nFélicitations pour avoir atteint ce palier ! Vous pouvez ajouter un nouveau membre à votre équipe.");
             System.out.println("Choisissez un nouveau personnage pour rejoindre votre équipe :");
-            Personnage nouveauMembre = selectionnerClassePersonnage(scanner);
+            Personnage nouveauMembre = selectionnerClassePersonnage(scanner, equipeDuJoueur, etage, nomJoueur);
             if (nouveauMembre != null) {
                 ajouterMembre(nouveauMembre);
             }
@@ -102,20 +96,20 @@ public class Equipe {
     }
 
 
-    private Personnage selectionnerClassePersonnage(Scanner scanner) {
+    private Personnage selectionnerClassePersonnage(Scanner scanner,Equipe equipeDuJoueur,int etage,String nomJoueur) {
         String choixClasse;
         Personnage personnageChoisi = null;
 
         while (personnageChoisi == null) {
-            System.out.println("Classes disponibles (un seul de chaque type par équipe) :");
-            System.out.println("  1. Assassin " + (classeEstPresente("Assassin") ? "(Déjà pris)" : ""));
-            System.out.println("  2. Barbare " + (classeEstPresente("Barbare") ? "(Déjà pris)" : ""));
-            System.out.println("  3. Chevalier " + (classeEstPresente("Chevalier") ? "(Déjà pris)" : ""));
-            System.out.println("  4. Enchanteur " + (classeEstPresente("Enchanteur") ? "(Déjà pris)" : ""));
-            System.out.println("  5. Nécromancien " + (classeEstPresente("Necromancien") ? "(Déjà pris)" : ""));
-            System.out.println("  6. Paladin " + (classeEstPresente("Paladin") ? "(Déjà pris)" : ""));
-            System.out.println("  7. Prêtre " + (classeEstPresente("Pretre") ? "(Déjà pris)" : ""));
-            System.out.println("  8. Pyromancien " + (classeEstPresente("Pyromancien") ? "(Déjà pris)" : ""));
+            System.out.println(Main.ANSI_CYAN + "Classes disponibles  :" + Main.ANSI_RESET);
+            System.out.println("  1. Assassin 🗡️" + (classeEstPresente("Assassin") ? "(Déjà pris)" : ""));
+            System.out.println("  2. Barbare 🪓 " + (classeEstPresente("Barbare") ? "(Déjà pris)" : ""));
+            System.out.println("  3. Chevalier ⚔️ " + (classeEstPresente("Chevalier") ? "(Déjà pris)" : ""));
+            System.out.println("  4. Enchanteur 📜" + (classeEstPresente("Enchanteur") ? "(Déjà pris)" : ""));
+            System.out.println("  5. Nécromancien ☠️" + (classeEstPresente("Necromancien") ? "(Déjà pris)" : ""));
+            System.out.println("  6. Paladin 🔨" + (classeEstPresente("Paladin") ? "(Déjà pris)" : ""));
+            System.out.println("  7. Prêtre 🪬" + (classeEstPresente("Pretre") ? "(Déjà pris)" : ""));
+            System.out.println("  8. Pyromancien 🔥" + (classeEstPresente("Pyromancien") ? "(Déjà pris)" : ""));
             System.out.print("Votre choix (numéro) : ");
             choixClasse = scanner.nextLine();
 
@@ -132,7 +126,7 @@ public class Equipe {
                 case "7": tempPerso = new Pretre(); nomClasseChoisie = "Pretre"; break;
                 case "8": tempPerso = new Pyromancien(); nomClasseChoisie = "Pyromancien"; break;
                 default:
-                    System.out.println("Choix de classe invalide. Veuillez réessayer.");
+                    System.out.println(Main.ANSI_RED + "Choix de classe invalide. Veuillez réessayer." + Main.ANSI_RESET);
                     continue; 
             }
 
@@ -140,7 +134,7 @@ public class Equipe {
                 if (!classeEstPresente(nomClasseChoisie)) {
                     personnageChoisi = tempPerso;
                 } else {
-                    System.out.println("La classe " + nomClasseChoisie + " est déjà présente dans votre équipe. Choisissez une autre classe.");
+                    System.out.println(Main.ANSI_RED + "La classe " + nomClasseChoisie + " est déjà présente dans votre équipe. Choisissez une autre classe." + Main.ANSI_RESET);
                 }
             }
         }
@@ -148,7 +142,7 @@ public class Equipe {
     }
     public boolean changerDePlace(Scanner scanner, Personnage pQuiVeutBouger) {
         if (membres.size() < 2) {
-            System.out.println(ANSI_YELLOW + "Pas assez de membres dans l'équipe pour changer de place." + ANSI_RESET);
+            System.out.println(Main.ANSI_YELLOW + "Pas assez de membres dans l'équipe pour changer de place." + Main.ANSI_RESET);
             return false;
         }
 
@@ -157,11 +151,11 @@ public class Equipe {
 
         if (coequipiersPossibles.isEmpty()) {
             
-            System.out.println(ANSI_RED + "Erreur : Aucun coéquipier avec qui échanger." + ANSI_RESET);
+            System.out.println(Main.ANSI_RED + "Erreur : Aucun coéquipier avec qui échanger." + Main.ANSI_RESET);
             return false;
         }
 
-        System.out.println(ANSI_CYAN + "Avec quel coéquipier " + ANSI_YELLOW + pQuiVeutBouger.getNom() + ANSI_CYAN + " doit-il échanger sa place ?" + ANSI_RESET);
+        System.out.println(Main.ANSI_CYAN + "Avec quel coéquipier " + Main.ANSI_YELLOW + pQuiVeutBouger.getNom() + Main.ANSI_CYAN + " doit-il échanger sa place ?" + Main.ANSI_RESET);
         for (int i = 0; i < coequipiersPossibles.size(); i++) {
             Personnage coequipier = coequipiersPossibles.get(i);
             System.out.println("  " + (i + 1) + ". " + coequipier.getNom() + " (Position actuelle: " + (membres.indexOf(coequipier) + 1) + ")");
@@ -173,20 +167,20 @@ public class Equipe {
             choixCoequipierInput = scanner.nextInt();
         } else {
             scanner.nextLine();
-            System.out.println(ANSI_RED + "Entrée invalide." + ANSI_RESET);
+            System.out.println(Main.ANSI_RED + "Entrée invalide." + Main.ANSI_RESET);
             return false;
         }
         scanner.nextLine(); 
 
         if (choixCoequipierInput == 0) {
-            System.out.println(ANSI_YELLOW + "Changement de place annulé." + ANSI_RESET);
+            System.out.println(Main.ANSI_YELLOW + "Changement de place annulé." + Main.ANSI_RESET);
             return false;
         }
 
         int choixCoequipierIndexDansListeOptions = choixCoequipierInput - 1;
 
         if (choixCoequipierIndexDansListeOptions < 0 || choixCoequipierIndexDansListeOptions >= coequipiersPossibles.size()) {
-            System.out.println(ANSI_RED + "Choix de coéquipier invalide." + ANSI_RESET);
+            System.out.println(Main.ANSI_RED + "Choix de coéquipier invalide." + Main.ANSI_RESET);
             return false;
         }
 
@@ -197,18 +191,27 @@ public class Equipe {
         int indexCoequipierChoisi = membres.indexOf(coequipierChoisi);
 
         if (indexPQuiVeutBouger == -1 || indexCoequipierChoisi == -1) {
-            System.out.println(ANSI_RED + "Erreur interne : un des personnages n'a pas été trouvé dans l'équipe." + ANSI_RESET);
+            System.out.println(Main.ANSI_RED + "Erreur interne : un des personnages n'a pas été trouvé dans l'équipe." + Main.ANSI_RESET);
             return false; 
         }
 
         
         Collections.swap(membres, indexPQuiVeutBouger, indexCoequipierChoisi);
 
-        System.out.println(ANSI_GREEN + pQuiVeutBouger.getNom() + " a échangé sa place avec " + coequipierChoisi.getNom() + "." + ANSI_RESET);
+        System.out.println(Main.ANSI_GREEN + pQuiVeutBouger.getNom() + " a échangé sa place avec " + coequipierChoisi.getNom() + "." + Main.ANSI_RESET);
         System.out.println("Nouvel ordre de l'équipe :");
         
 
         return true; 
+    }
+    public int getMembresVivantsCount() {
+        int count = 0;
+        for (Personnage p : membres) {
+            if (p.estVivant()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public void afficherStatEquipe() {
