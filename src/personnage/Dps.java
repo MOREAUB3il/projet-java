@@ -21,7 +21,7 @@ public abstract class Dps extends Personnage {
     public void augmenterStats() {
     	setPvMax(getPvMax() + 5);
         setPv(getPv() + 5);
-        setForce(getForce() + 2);
+        setForceBase(getForce() + 2);
         this.penetration += 2;
         System.out.println(getNom() + " gagne +5 PV, +1 Force, +2 Pénétration !");
     }

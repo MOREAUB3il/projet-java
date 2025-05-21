@@ -23,7 +23,7 @@ private int soin;
     public void augmenterStats() {
     	setPvMax(getPvMax() + 5);
         setPv(getPv() + 5);
-        setForce(getForce() + 1);
+        setForceBase(getForce() + 1);
         soin += 2;
         System.out.println(getNom() + " gagne +5 PV, +1 Force, +2 Soin !");
     }

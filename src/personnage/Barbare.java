@@ -4,6 +4,8 @@ package personnage;
 import monstre.Monstre;
 import java.util.Random;
 
+import jeu.Main;
+
 public  class Barbare extends Dps {
     
     private static final String[] NOMS_POSSIBLES = {
@@ -28,12 +30,12 @@ public  class Barbare extends Dps {
         } else {
             degats = getForce() + getPenetration() * cible.getDefence();
         }
-        System.out.println(getNom() + " 🗡️ attaque " + cible.getNom() + " avec sa dague !");
+        System.out.println(Main.ANSI_CYAN + getNom() + " 🗡️ attaque " + cible.getNom() + " avec sa dague !" + Main.ANSI_RESET);
         System.out.println("Cela inflige " + degats + " dégâts !");
         
         cible.subirDegats(degats); 
     }
-    public void ulti(Monstre cible){ // force + penetration*2+ regene 15,30,60% des degats}
+    public void ulti(Monstre cible){
         int force = getForce();
         int penetration = getPenetration();
         int degats = 0;
@@ -46,7 +48,7 @@ public  class Barbare extends Dps {
             } else {
                 degats = force + 2 * penetration + (60 * force) / 100;
             }
-            System.out.println(getNom() + " ⚔️ utilise son ultime sur " + cible.getNom() + " !");
+            System.out.println(Main.ANSI_CYAN+ getNom() + " ⚔️ utilise son ultime sur " + cible.getNom() + " !" + Main.ANSI_RESET);
             System.out.println("Cela inflige " + degats + " dégâts !");
             cible.subirDegats(degats);
         } else {
