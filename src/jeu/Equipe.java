@@ -108,7 +108,7 @@ public class Equipe {
             System.out.println("  4. Enchanteur 📜" + (classeEstPresente("Enchanteur") ? "(Déjà pris)" : ""));
             System.out.println("  5. Nécromancien ☠️" + (classeEstPresente("Necromancien") ? "(Déjà pris)" : ""));
             System.out.println("  6. Paladin 🔨" + (classeEstPresente("Paladin") ? "(Déjà pris)" : ""));
-            System.out.println("  7. Prêtre " + (classeEstPresente("Pretre") ? "(Déjà pris)" : ""));
+            System.out.println("  7. Prêtre 🪬" + (classeEstPresente("Pretre") ? "(Déjà pris)" : ""));
             System.out.println("  8. Pyromancien 🔥" + (classeEstPresente("Pyromancien") ? "(Déjà pris)" : ""));
             System.out.print("Votre choix (numéro) : ");
             choixClasse = scanner.nextLine();
