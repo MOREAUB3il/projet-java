@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-
+import event.Ecclesiastique;
+import event.Evenement;
+import event.Fantome;
+import event.Mercenaire;
 import event.Shop;
+import event.TerrainRuine;
 import monstre.Monstre;
 import personnage.Personnage;
 import personnage.Paladin;
@@ -639,4 +643,20 @@ public class Main {
     	    }
     	    System.out.println(ANSI_BLUE + "---------------------------------" + ANSI_RESET);
     	}
+
+     private static boolean doitDeclencherEvenement(int etage) {
+         return (etage % 10 == 5);
+     }
+
+     private static Evenement choisirEvenementAleatoire(int etage) {
+         Random random = new Random();
+         List<Evenement> poolEvenementsPossibles = new ArrayList<>();
+         poolEvenementsPossibles.add(new TerrainRuine());
+         poolEvenementsPossibles.add(new Ecclesiastique());
+         poolEvenementsPossibles.add(new Mercenaire());
+         poolEvenementsPossibles.add(new Fantome());
+
+         if (poolEvenementsPossibles.isEmpty()) return null;
+         return poolEvenementsPossibles.get(random.nextInt(poolEvenementsPossibles.size()));
+     }
 }

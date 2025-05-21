@@ -1,4 +1,7 @@
-package personnage; 
+package personnage;
+
+import jeu.Main;
+
 public class EffetTemporaire {
 
     private String nom;                
@@ -102,7 +105,7 @@ public class EffetTemporaire {
         return new EffetTemporaire("Brûlure Intense", "🔥🔥", 1, true); // Dure 1 application de dégâts (plus forte)
     }
     public static EffetTemporaire poison() {
-        return new EffetTemporaire("Poison", "☠️🧪", 3, true); // Dure 3 applications de dégâts
+        return new EffetTemporaire(Main.ANSI_GREEN +"Poison", "☠️🧪"+ Main.ANSI_RESET, 3, true); // Dure 3 applications de dégâts
     }
 }
 /*

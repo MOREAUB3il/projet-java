@@ -2,9 +2,11 @@ package monstre;
 
 import personnage.Personnage;
 import personnage.EffetTemporaire; 
+import event.Mercenaire;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import jeu.Main;
 
@@ -103,9 +105,6 @@ public class Monstre {
                 this.modificateurDefenseEffets += 5;
                 System.out.println("  -> " + Main.ANSI_PURPLE + this.nom + Main.ANSI_RESET + ": La brisure de défense est réparée. (Défense totale: " + getDefence() + ")");
                 break;
-            case "Provoqué":
-                 System.out.println("  -> " + Main.ANSI_PURPLE + this.nom + Main.ANSI_RESET + " n'est plus Provoqué.");
-                 break;
         }
     }
 
@@ -154,7 +153,7 @@ public class Monstre {
     public void subirDegatsDirects(int degats,String raison) {
         if (degats <= 0) return;
         this.setPv(this.getPv() - degats);
-        System.out.println("et subit " + Main.ANSI_RED + degats + " dégâts directs" + Main.ANSI_RESET + " ! PV: " + this.pv + "/" + this.pvMax);
+        System.out.println( this.getNom() + "subit " + Main.ANSI_RED + degats + " dégâts directs" + Main.ANSI_RESET + " ! PV: " + this.pv + "/" + this.pvMax);
         if (!estVivant()) {
             System.out.println(Main.ANSI_RED + this.nom + " succombe !" + Main.ANSI_RESET);
         }
@@ -187,13 +186,12 @@ public class Monstre {
         System.out.println(Main.ANSI_RED + this.getNom() + Main.ANSI_RESET + " attaque " + Main.ANSI_YELLOW + cible.getNom() + Main.ANSI_RESET + " !");
         int degatsInfliges = this.getForce(); 
         cible.subirDegats(degatsInfliges);
-/*
+
         if (new Random().nextDouble() < maladieChance) {
             cible.appliquerMaladie();
         }
-        */
+        
     }
-
     public void subirDegats(int degatsBruts) {
         int defenseMonstre = this.getDefence();
         int degatsEffectifs = degatsBruts - defenseMonstre;

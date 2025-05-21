@@ -204,6 +204,15 @@ public class Equipe {
 
         return true; 
     }
+    public int getMembresVivantsCount() {
+        int count = 0;
+        for (Personnage p : membres) {
+            if (p.estVivant()) {
+                count++;
+            }
+        }
+        return count;
+    }
 
     public void afficherStatEquipe() {
         if (membres.isEmpty()) {
