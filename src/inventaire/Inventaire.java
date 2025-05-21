@@ -2,7 +2,6 @@ package inventaire;
 
 import java.util.List;
 import java.util.Scanner;
-
 import personnage.Personnage;
 
 public class Inventaire {
@@ -176,12 +175,6 @@ public class Inventaire {
         return true; 
     }
 
-    public boolean estVide() {
-        for (Objet o : objetsSpecifiques) {
-            if (o != null) return false;
-         }
-         return true; 
-    }
     public void ouvrir(Inventaire inventaireEquipe, Scanner scanner) {
          System.out.println("Bienvenue au magasin !");
          while (true) {
