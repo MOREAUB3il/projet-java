@@ -3,6 +3,9 @@ package inventaire;
 import java.util.List;
 import java.util.Scanner;
 
+import jeu.Equipe;
+import jeu.Main;
+import monstre.Monstre;
 import personnage.Personnage;
 
 public class Inventaire {
@@ -25,12 +28,13 @@ public class Inventaire {
         Objet.potionLegendaire().getNom(),  //  2
         Objet.collierCommun().getNom(),     //  3
         Objet.collierRare().getNom(),       //  4
-        Objet.collierLegendaire().getNom()  //  5
+        Objet.collierLegendaire().getNom(),  //  5
+        Objet.fioleDePoison().getNom()      //  6
     };
 
     public Inventaire() {
     	this.or = 50;
-		this.objetsSpecifiques = new Objet[6];
+		this.objetsSpecifiques = new Objet[7];
     }
 
     public boolean ajouterObjet(Objet objetAAjouter) {
@@ -60,7 +64,7 @@ public class Inventaire {
         if (objetsSpecifiques[slotIndex] != null) {
             Objet objetAUtiliser = objetsSpecifiques[slotIndex];
             
-            objetAUtiliser.utiliser(cible); 
+            objetAUtiliser.utiliser(cible, objetAUtiliser); 
 
             objetsSpecifiques[slotIndex] = null; 
             System.out.println(objetAUtiliser.getNom() + " a été retiré du slot " + (slotIndex + 1) + " après utilisation.");
@@ -97,91 +101,129 @@ public class Inventaire {
         }
         System.out.println("------------------");
     }
-    public boolean utiliserObjetInteractive(Scanner scanner, Personnage utilisateur, List<Personnage> ciblesPotentielles) {
-        if (estVide()) {
-            System.out.println(ANSI_YELLOW + "L'inventaire est vide, aucun objet à utiliser." + ANSI_RESET);
-            return false;
-        }
+    public boolean utiliserObjetInteractive(Scanner scanner, Personnage utilisateur,List<Personnage> ciblesEquipe, List<Monstre> ciblesMonstres,Equipe equipePourMenu, int etagePourMenu, String nomJoueurPourMenu) {
+		if (estVide()) {
+			System.out.println(Main.ANSI_YELLOW + "L'inventaire est vide." + Main.ANSI_RESET);
+			return false;
+		}
+		
+		afficherInventaire();
+		int choixSlotInput = Main.lireIntAvecMenuPause(scanner,
+			Main.ANSI_CYAN + "Objet à utiliser (slot 1-" + objetsSpecifiques.length + ", 0 annuler, 'M' menu) : " + Main.ANSI_RESET,
+			equipePourMenu, etagePourMenu, nomJoueurPourMenu);
+		
+			if (!Main.continuerJeuGlobal || choixSlotInput == -999) return false; 
+				if (choixSlotInput == 0) {
+					System.out.println(Main.ANSI_YELLOW + "Utilisation d'objet annulée." + Main.ANSI_RESET);
+					return false;
+				}
+		
+				int choixSlotIndex = choixSlotInput - 1;
+					if (choixSlotIndex < 0 || choixSlotIndex >= objetsSpecifiques.length || objetsSpecifiques[choixSlotIndex] == null) {
+						System.out.println(Main.ANSI_RED + "Slot invalide ou vide." + Main.ANSI_RESET);
+						return false;
+					}
+		
+				Objet objetAUtiliser = objetsSpecifiques[choixSlotIndex];
+				Object cibleFinale = null; 
+				
+				System.out.println("Utilisation de : " + Main.ANSI_GREEN + objetAUtiliser.getNom() + Main.ANSI_RESET);
+				
+				switch (objetAUtiliser.getCibleAutorisee()) {
+				case "SOI_MEME":
+				cibleFinale = utilisateur;
+				break;
+		
+				case "ALLIE":
+				if (ciblesEquipe.isEmpty()) {
+					System.out.println(Main.ANSI_RED + "Aucun allié à cibler." + Main.ANSI_RESET);
+					return false;
+				}
+				System.out.println(Main.ANSI_CYAN + "Sur quel allié utiliser " + objetAUtiliser.getNom() + " ('M' menu) ?" + Main.ANSI_RESET);
+				for (int i = 0; i < ciblesEquipe.size(); i++) {
+					System.out.println("  " + (i + 1) + ". " + ciblesEquipe.get(i).getNom());
+				}
+				int choixAllieInput = Main.lireIntAvecMenuPause(scanner, "Choix : ", equipePourMenu, etagePourMenu, nomJoueurPourMenu);
+					if (!Main.continuerJeuGlobal || choixAllieInput == -999) return false;
+					if (choixAllieInput > 0 && choixAllieInput <= ciblesEquipe.size()) {
+						cibleFinale = ciblesEquipe.get(choixAllieInput - 1);
+					} else {
+						System.out.println(Main.ANSI_RED + "Choix d'allié invalide." + Main.ANSI_RESET);
+						return false;
+					}
+					break;
+				
+				case "ENNEMI":
+					if (ciblesMonstres.isEmpty()) {
+						System.out.println(Main.ANSI_RED + "Aucun ennemi à cibler." + Main.ANSI_RESET);
+						return false;
+					}
+					System.out.println(Main.ANSI_CYAN + "Sur quel ennemi utiliser " + objetAUtiliser.getNom() + " ('M' menu) ?" + Main.ANSI_RESET);
+					for (int i = 0; i < ciblesMonstres.size(); i++) {
+						System.out.println("  " + (i + 1) + ". " + ciblesMonstres.get(i).getNom());
+					}
+					int choixEnnemiInput = Main.lireIntAvecMenuPause(scanner, "Choix : ", equipePourMenu, etagePourMenu, nomJoueurPourMenu);
+					if (!Main.continuerJeuGlobal || choixEnnemiInput == -999) return false;
+					if (choixEnnemiInput > 0 && choixEnnemiInput <= ciblesMonstres.size()) {
+						cibleFinale = ciblesMonstres.get(choixEnnemiInput - 1);
+					} else {
+						System.out.println(Main.ANSI_RED + "Choix d'ennemi invalide." + Main.ANSI_RESET);
+						return false;
+					}
+					break;
+			
+				case "ALLIE_OU_ENNEMI":
+					String typeDeCibleStr = Main.lireStringAvecMenuPause(scanner, 
+							Main.ANSI_CYAN + "Cibler un allié (A) ou un ennemi (E) ('M' menu) ? " + Main.ANSI_RESET, 
+							equipePourMenu, etagePourMenu, nomJoueurPourMenu);
+					if (!Main.continuerJeuGlobal || "QUIT_GAME_INTERNAL".equals(typeDeCibleStr)) return false;
+			
+					if (typeDeCibleStr.equalsIgnoreCase("A")) {
+						// Copier la logique de "ALLIE"
+						if (ciblesEquipe.isEmpty()) { System.out.println(Main.ANSI_RED + "Aucun allié." + Main.ANSI_RESET); return false; }
+						System.out.println(Main.ANSI_CYAN + "Sur quel allié ('M' menu) ?" + Main.ANSI_RESET);
+						for (int i = 0; i < ciblesEquipe.size(); i++) { System.out.println("  " + (i + 1) + ". " + ciblesEquipe.get(i).getNom()); }
+						int choixAllieAE = Main.lireIntAvecMenuPause(scanner, "Choix : ", equipePourMenu, etagePourMenu, nomJoueurPourMenu);
+						if (!Main.continuerJeuGlobal || choixAllieAE == -999) return false;
+						if (choixAllieAE > 0 && choixAllieAE <= ciblesEquipe.size()) cibleFinale = ciblesEquipe.get(choixAllieAE - 1);
+						else { System.out.println(Main.ANSI_RED + "Choix invalide." + Main.ANSI_RESET); return false; }
+						} else if (typeDeCibleStr.equalsIgnoreCase("E")) {
 
-        afficherInventaire();
-        System.out.print(ANSI_CYAN + "Choisissez un objet à utiliser (entrez le numéro du slot 1-" + objetsSpecifiques.length + ") ou 0 pour annuler : " + ANSI_RESET);
-        
-        int choixSlotInput;
-        if (scanner.hasNextInt()) {
-            choixSlotInput = scanner.nextInt();
-        } else {
-            scanner.nextLine(); 
-            System.out.println(ANSI_RED + "Entrée invalide." + ANSI_RESET);
-            return false;
-        }
-        scanner.nextLine();
+							if (ciblesMonstres.isEmpty()) { System.out.println(Main.ANSI_RED + "Aucun ennemi." + Main.ANSI_RESET); return false; }
+							System.out.println(Main.ANSI_CYAN + "Sur quel ennemi ('M' menu) ?" + Main.ANSI_RESET);
+							for (int i = 0; i < ciblesMonstres.size(); i++) { System.out.println("  " + (i + 1) + ". " + ciblesMonstres.get(i).getNom()); }
+							int choixEnnemiAE = Main.lireIntAvecMenuPause(scanner, "Choix : ", equipePourMenu, etagePourMenu, nomJoueurPourMenu);
+							if (!Main.continuerJeuGlobal || choixEnnemiAE == -999) return false;
+							if (choixEnnemiAE > 0 && choixEnnemiAE <= ciblesMonstres.size()) cibleFinale = ciblesMonstres.get(choixEnnemiAE - 1);
+							else { System.out.println(Main.ANSI_RED + "Choix invalide." + Main.ANSI_RESET); return false; }
+						} else {
+							System.out.println(Main.ANSI_RED + "Type de cible (A/E) invalide." + Main.ANSI_RESET);
+							return false;
+						}
+					break;
+			
+			// TODO: Gérer "TOUS_ALLIES", "TOUS_ENNEMIS" si nécessaire (pas de choix de cible individuelle)
+			// case "TOUS_ALLIES":
+			//     for (Personnage pAllie : ciblesEquipe) { objetAUtiliser.utiliser(utilisateur, pAllie); }
+			//     objetsSpecifiques[choixSlotIndex] = null; // Consommer une seule fois
+			//     return true; // Pas besoin de cibleFinale
+			
+				default:
+					System.out.println(Main.ANSI_RED + "Type de cible de l'objet non géré : " + objetAUtiliser.getCibleAutorisee() + Main.ANSI_RESET);
+					return false;
+				}
+			
+				if (cibleFinale != null) {
+					objetAUtiliser.utiliser(utilisateur, cibleFinale);
+					objetsSpecifiques[choixSlotIndex] = null;
+					return true;
+				} else {
 
-        if (choixSlotInput == 0) {
-            System.out.println(ANSI_YELLOW + "Utilisation d'objet annulée." + ANSI_RESET);
-            return false;
-        }
+					System.out.println(Main.ANSI_RED + "Erreur: Aucune cible finale déterminée pour l'objet." + Main.ANSI_RESET);
+					return false;
+				}
+    	}
 
-        int choixSlotIndex = choixSlotInput - 1; 
-
-        if (choixSlotIndex < 0 || choixSlotIndex >= objetsSpecifiques.length || objetsSpecifiques[choixSlotIndex] == null) {
-            System.out.println(ANSI_RED + "Slot invalide ou vide." + ANSI_RESET);
-            return false;
-        }
-
-        Objet objetAUtiliser = objetsSpecifiques[choixSlotIndex];
-
-       
-        if (ciblesPotentielles.isEmpty()) {
-            System.out.println(ANSI_RED + "Aucune cible disponible pour l'objet." + ANSI_RESET);
-            return false;
-        }
-
-        System.out.println(ANSI_CYAN + "Sur quel membre de l'équipe utiliser " + ANSI_GREEN + objetAUtiliser.getNom() + ANSI_CYAN + "?" + ANSI_RESET);
-        for (int i = 0; i < ciblesPotentielles.size(); i++) {
-            System.out.println("  " + (i + 1) + ". " + ciblesPotentielles.get(i).getNom() + " (PV: " + ciblesPotentielles.get(i).getPv() + "/" + ciblesPotentielles.get(i).getPvMax() + ")");
-        }
-        System.out.print("Votre choix (numéro de personnage) ou 0 pour annuler : ");
-        
-        int choixCibleInput;
-        if (scanner.hasNextInt()) {
-            choixCibleInput = scanner.nextInt();
-        } else {
-            scanner.nextLine(); 
-            System.out.println(ANSI_RED + "Entrée invalide." + ANSI_RESET);
-            return false;
-        }
-        scanner.nextLine(); 
-
-        if (choixCibleInput == 0) {
-            System.out.println(ANSI_YELLOW + "Utilisation d'objet annulée." + ANSI_RESET);
-            return false;
-        }
-
-        int choixCibleIndex = choixCibleInput - 1;
-
-        if (choixCibleIndex < 0 || choixCibleIndex >= ciblesPotentielles.size()) {
-            System.out.println(ANSI_RED + "Choix de cible invalide." + ANSI_RESET);
-            return false;
-        }
-
-        Personnage cibleObjet = ciblesPotentielles.get(choixCibleIndex);
-
-        
-        System.out.println(ANSI_YELLOW + utilisateur.getNom() + ANSI_RESET + " utilise " + ANSI_GREEN + objetAUtiliser.getNom() + ANSI_RESET + " sur " + ANSI_YELLOW + cibleObjet.getNom() + ANSI_RESET + ".");
-        objetAUtiliser.utiliser(cibleObjet);
-        
-        objetsSpecifiques[choixSlotIndex] = null; 
-        System.out.println(ANSI_GREEN + objetAUtiliser.getNom() + ANSI_RESET + " a été consommé.");
-        
-        return true; 
-    }
-
-    public boolean estVide() {
-        for (Objet o : objetsSpecifiques) {
-            if (o != null) return false;
-         }
-         return true; 
-    }
     public void ouvrir(Inventaire inventaireEquipe, Scanner scanner) {
          System.out.println("Bienvenue au magasin !");
          while (true) {
