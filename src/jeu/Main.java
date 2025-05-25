@@ -247,11 +247,12 @@ public class Main {
                                             cibleAction = selectionnerCibleMonstreInteractive(scanner, monstres, equipeDuJoueur, etage, nomJoueur);
                                             if (!continuerJeuGlobal) { combatTermine = true; break; }
                                             if (cibleAction == null) { System.out.println(ANSI_YELLOW+"Aucune cible sélectionnée."+ANSI_RESET); continue; }
-                                        }
+                                         }
                                         
                                         if (choixActionJoueur == 1) joueurActif.attaque1(cibleAction);
                                         else {
-                                            joueurActif.ulti(cibleAction);
+                                            joueurActif.ultiSoigner(equipeDuJoueur.getMembres());
+                                            joueurActif.ultiAtt(cibleAction);
                                             if (joueurActif instanceof Paladin) equipeDuJoueur.deplacerMembreAuDebut(joueurActif);
                                         }
 
@@ -309,6 +310,13 @@ public class Main {
                                 if (!monstreActif.estVivant() || !continuerJeuGlobal) continue;
                                 if (equipeDuJoueur.getMembres().isEmpty()) { combatTermine = true; victoireJoueurCombat = false; break; }
                                 System.out.println(ANSI_PURPLE + "\n-- Action de " + monstreActif.getNom() + " --" + ANSI_RESET);
+                              
+                                // Attaque un personnage aléatoire de l'équipe
+                                if (!equipeDuJoueur.getMembres().isEmpty()) {
+                                    Random random = new Random();
+                                    Personnage cible = equipeDuJoueur.getMembres().get(random.nextInt(equipeDuJoueur.getMembres().size()));
+                                    monstreActif.attaquer(cible);
+                                }
                                 monstreActif.mettreAJourEffets();
                                 if (!monstreActif.estVivant()) {
                                     System.out.println(ANSI_GREEN + monstreActif.getNom() + " succombe à ses effets !" + ANSI_RESET);
