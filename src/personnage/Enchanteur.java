@@ -2,6 +2,7 @@ package personnage;
 
 import monstre.Monstre;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Enchanteur extends Support {
@@ -31,7 +32,7 @@ public class Enchanteur extends Support {
         cible.subirDegats(degats);
     }
 
-    public void ulti(Monstre cible){ //scelle les ennemis( 20,25,30% de force en moins sur 1,2,3 tours) + 10 pv  de soin sur toute la team
+    public void ultiAtt(Monstre cible){ //scelle les ennemis( 20,25,30% de force en moins sur 1,2,3 tours) + 10 pv  de soin sur toute la team
         int force = getForce();
         int degats = 0;
 
@@ -52,5 +53,7 @@ public class Enchanteur extends Support {
             System.out.println(cible.getNom() + " est déjà mort !");
         }
         
+    }
+    public void ultiSoigner(List<Personnage> equipe){ 
     }
 }

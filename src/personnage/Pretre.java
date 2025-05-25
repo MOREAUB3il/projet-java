@@ -2,6 +2,7 @@ package personnage;
 
 import monstre.Monstre;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Pretre extends Support {
@@ -30,8 +31,19 @@ public class Pretre extends Support {
         cible.subirDegats(degats);
     }
 
-    public void ulti(Monstre cible){
-        
+    public void ultiSoigner(List<Personnage> equipe){ //soin tout les alliés = soin +  20,30,50 % de hpMax
+        for (Personnage p : equipe) {
+            
+                int montantSoin = (getSoin() * p.getPvMax()) / 100;
+                p.setPv(Math.min(p.getPv() + montantSoin, p.getPvMax()));
+                System.out.println(getNom() + " 💖 soigne " + p.getNom() + " de " + montantSoin + " PV !");
+                System.out.println(p.getNom() + " a maintenant " + p.getPv() + "/" + p.getPvMax() + " PV.");
+            
+        }
     }
- 
+    public void ultiAtt(Monstre cible){
+
+    }
+   
 }
+

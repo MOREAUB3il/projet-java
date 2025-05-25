@@ -1,4 +1,7 @@
 package personnage;
+
+import monstre.Monstre;
+
 public abstract class Mage extends Personnage {
     private int malediction;
     
@@ -34,5 +37,11 @@ public abstract class Mage extends Personnage {
         if (getPv() < 0) setPv(0);
         System.out.println(getNom() + " perd " + degats + " PV. Il lui reste " + getPv() + " PV.");
     }
-
+    public void ulti(Monstre cible) {
+        System.out.println(getNom() + " utilise son ultime !");
+        setPv(getPv() + 10);
+        setForceBase(getForce() + 5);
+        this.malediction += 5;
+        System.out.println(getNom() + " gagne +10 PV, +5 Force, +5 Malédiction !");
+    }
 }

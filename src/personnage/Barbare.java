@@ -2,6 +2,8 @@ package personnage;
 
 
 import monstre.Monstre;
+
+import java.util.List;
 import java.util.Random;
 
 import jeu.Main;
@@ -35,7 +37,7 @@ public  class Barbare extends Dps {
         
         cible.subirDegats(degats); 
     }
-    public void ulti(Monstre cible){
+    public void ultiAtt(Monstre cible){
         int force = getForce();
         int penetration = getPenetration();
         int degats = 0;
@@ -55,5 +57,7 @@ public  class Barbare extends Dps {
             System.out.println(cible.getNom() + " est déjà mort !");
         }
 
+    }
+     public void ultiSoigner(List <Personnage> equipe){ 
     }
 }

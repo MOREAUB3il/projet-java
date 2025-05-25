@@ -1,6 +1,8 @@
 package personnage;
 
 import monstre.Monstre;
+
+import java.util.List;
 import java.util.Random;
 
 public class Chevalier extends Tank {
@@ -34,7 +36,7 @@ public class Chevalier extends Tank {
         cible.subirDegats(degats); 
     }
     
-    public void ulti(Monstre cible){//force + 15,25,50 % hp max Si ennemi meurt + 15% hp(soin) + 5hpMax
+    public void ultiAtt(Monstre cible){//force + 15,25,50 % hp max Si ennemi meurt + 15% hp(soin) + 5hpMax
         int force = getForce();
         int hpMax = getPvMax();
         int degats = 0;
@@ -53,5 +55,7 @@ public class Chevalier extends Tank {
         } else {
             System.out.println(cible.getNom() + " est déjà mort !");
         }
+    }
+     public void ultiSoigner(List <Personnage> equipe){ 
     }
 }

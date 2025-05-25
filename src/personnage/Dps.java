@@ -1,4 +1,7 @@
 package personnage;
+
+import monstre.Monstre;
+
 public abstract class Dps extends Personnage {
     private int penetration;
     
@@ -32,6 +35,20 @@ public abstract class Dps extends Personnage {
         if (getPv() < 0) setPv(0);
         System.out.println(getNom() + " perd " + degats + " PV. Il lui reste " + getPv() + " PV.");
     }
+    public void ultiAtta(Monstre cible){ // force + pénétration + force cible + si ennemi meurt le monstre derrière a 50,100,150% des dégats infligés
+        int degats;
+        if (getNiveau() < 5) {
+            degats = getForce() + getPenetration() + (cible.getPv() / 4);
+        } else if (getNiveau() < 15) {
+            degats = getForce() + getPenetration() + (cible.getDefence() / 2);
+        } else {
+            degats = getForce() + getPenetration() + cible.getDefence();
+        }
+        System.out.println(getNom() + " attaque " + cible.getNom() + " avec son arme ! 🔥");
+        System.out.println("Cela inflige " + degats + " dégâts !");
+        
+        cible.subirDegats(degats);
 
+    }
 }
 

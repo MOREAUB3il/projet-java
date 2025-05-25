@@ -381,8 +381,9 @@ public abstract class Personnage {
     }
 
     public abstract void attaque1(Monstre cible);
-    public abstract void ulti(Monstre cible);
-    public abstract void subirDegats(int degatsBruts); 
+    public abstract void ultiAtt(Monstre cible);
+     public abstract void ultiSoigner(List<Personnage> equipe);
+    public abstract void subirDegats(int degatsBruts);
 
     public boolean estVivant() { return pv > 0; }
     

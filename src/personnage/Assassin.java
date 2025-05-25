@@ -1,6 +1,8 @@
 package personnage;
 
 import monstre.Monstre;
+
+import java.util.List;
 import java.util.Random;
 
 public  class Assassin extends Dps {
@@ -34,7 +36,7 @@ public  class Assassin extends Dps {
     }
 
 
-    public void ulti(Monstre cible){
+    public void ultiAtt(Monstre cible){
         
                 int degatsBase = getForce() + getPenetration() * (cible.getDefence() / 5); 
                 int degats = degatsBase;
@@ -53,6 +55,7 @@ public  class Assassin extends Dps {
                 cible.subirDegats(degats);
             }
             
-        
+         public void ultiSoigner(List <Personnage> equipe){ 
+    }
 
 }

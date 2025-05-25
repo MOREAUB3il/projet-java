@@ -1,6 +1,8 @@
 package personnage;
 
 import monstre.Monstre;
+
+import java.util.List;
 import java.util.Random;
 import jeu.Main;
 
@@ -34,15 +36,12 @@ public class Paladin extends Tank {
         
         cible.subirDegats(degats); 
     }
-    public void ulti(Monstre cible) { 
+    public void ultiAtt(Monstre cible) {  //aggro les monstre et reduit les degats subit de 60,70,80%
+     } 
+    public void ultiSoigner(List <Personnage> equipe){ 
         
 
-        System.out.println(Main.ANSI_BOLD + Main.ANSI_CYAN + getNom() + " invoque la Protection Divine ! 🛡️✨" + Main.ANSI_RESET);
-
-
-        this.appliquerEffet(EffetTemporaire.buffDefenseMajeur());
     }
-    
 }
 
 	
