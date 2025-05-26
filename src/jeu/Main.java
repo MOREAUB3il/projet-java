@@ -1,16 +1,16 @@
-package jeu; 
+package jeu;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import event.Ecclesiastique; 
+import event.Ecclesiastique;
 import event.Evenement;
-import event.Fantome;       
-import event.Mercenaire;    
+import event.Fantome;
+import event.Mercenaire;
 import event.Shop;
-import event.TerrainRuine;  
+import event.TerrainRuine;
 import monstre.Monstre;
 import personnage.Personnage;
 import personnage.Paladin;
@@ -123,16 +123,14 @@ public class Main {
                 System.out.println(ANSI_BOLD + ANSI_BLUE + "\n--- Étage " + etage + " ---" + ANSI_RESET);
                 System.out.println("Joueur : " + ANSI_YELLOW + nomJoueur + ANSI_RESET);
 
-                // Déclenchement des événements
                 if (doitDeclencherEvenement(etage) && continuerJeuGlobal) {
                     Evenement evenementActuel = choisirEvenementAleatoire(etage);
                     if (evenementActuel != null) {
                         evenementActuel.declencher(equipeDuJoueur, scanner, etage, nomJoueur);
-                        if (!continuerJeuGlobal) break; 
+                        if (!continuerJeuGlobal) break;
                     }
                 }
                 if (!continuerJeuGlobal) break;
-
 
                 String actionPreparation;
                 do {
@@ -166,10 +164,13 @@ public class Main {
                 } else {
                     boolean combatTermine = false;
                     while (!combatTermine && continuerJeuGlobal) {
-                        afficherEtatCombat(equipeDuJoueur, monstres);
+                        
+                        if (!combatTermine && continuerJeuGlobal) { // Afficher l'état seulement si le combat n'est pas déjà fini
+                             afficherEtatCombat(equipeDuJoueur, monstres);
+                        }
 
-                        // --- TOUR DES JOUEURS ---
-                        if (!equipeDuJoueur.getMembres().isEmpty() && !monstres.isEmpty() && continuerJeuGlobal) {
+
+                        if (!equipeDuJoueur.getMembres().isEmpty() && !monstres.isEmpty() && continuerJeuGlobal && !combatTermine) {
                             System.out.println(ANSI_BOLD + ANSI_GREEN + "\n=== TOUR DE L'ÉQUIPE (" + nomJoueur + ") ===" + ANSI_RESET);
                             int pointsActionEquipe = 4;
                             List<Personnage> personnagesAyantAgiCombat = new ArrayList<>();
@@ -239,7 +240,7 @@ public class Main {
                                         if (monstres.isEmpty()) { System.out.println(ANSI_YELLOW+"Plus de cibles."+ANSI_RESET); continue; }
 
                                         Monstre cibleAction = null;
-                                        if (!(joueurActif instanceof Paladin && choixActionJoueur == 2)) { // Paladin ulti 
+                                        if (!(joueurActif instanceof Paladin && choixActionJoueur == 2)) {
                                             System.out.println(ANSI_CYAN + "Cible pour " + (choixActionJoueur == 1 ? "Attaque" : "Ultime") + " ('M' menu) :" + ANSI_RESET);
                                             for (int i = 0; i < monstres.size(); i++) {
                                                 System.out.printf("  %d. %s%-20s%s - PV: %s%3d%s\n", (i + 1), ANSI_YELLOW, monstres.get(i).getNom(), ANSI_RESET, ANSI_RED, monstres.get(i).getPv(), ANSI_RESET);
@@ -249,8 +250,11 @@ public class Main {
                                             if (cibleAction == null) { System.out.println(ANSI_YELLOW+"Aucune cible sélectionnée."+ANSI_RESET); continue; }
                                         }
                                         
-                                        if (choixActionJoueur == 1) joueurActif.attaque1(cibleAction);
-                                        else {
+                                        if (choixActionJoueur == 1) {
+                                             System.out.println(ANSI_YELLOW + joueurActif.getNom() + ANSI_RESET + " utilise sa compétence 1 sur " + (cibleAction != null ? ANSI_RED + cibleAction.getNom() : "lui-même") + ANSI_RESET + " !");
+                                             joueurActif.attaque1(cibleAction);
+                                        } else {
+                                            System.out.println(ANSI_YELLOW + joueurActif.getNom() + ANSI_RESET + " déchaîne son ULTIME " + (cibleAction != null ? "sur " + ANSI_RED + cibleAction.getNom() : "") + ANSI_RESET + " !");
                                             joueurActif.ulti(cibleAction);
                                             if (joueurActif instanceof Paladin) equipeDuJoueur.deplacerMembreAuDebut(joueurActif);
                                         }
@@ -287,8 +291,7 @@ public class Main {
                                     case 0: System.out.println(joueurActif.getNom() + " passe ce PA."); break;
                                     default: System.out.println(ANSI_RED+"Choix invalide."+ANSI_RESET); continue;
                                 } 
-
-                                if (!continuerJeuGlobal || combatTermine) break; 
+                                if (!continuerJeuGlobal || combatTermine) break;
 
                                 if (actionCombatFaiteCePa) {
                                     paConsommesCeTour++;
@@ -300,13 +303,14 @@ public class Main {
                                 }
                             } 
                         } 
-                        if (!continuerJeuGlobal || combatTermine) break; 
+                        if (!continuerJeuGlobal || combatTermine) break;
 
                         // --- TOUR DES MONSTRES ---
                         if (!combatTermine && !monstres.isEmpty() && !equipeDuJoueur.getMembres().isEmpty() && continuerJeuGlobal) {
                             System.out.println(ANSI_BOLD + ANSI_RED + "\n=== TOUR DES MONSTRES ===" + ANSI_RESET);
                             for (Monstre monstreActif : new ArrayList<>(monstres)) {
-                                if (!monstreActif.estVivant() || !continuerJeuGlobal) continue;
+                                if (!monstreActif.estVivant()) continue;
+                                if (!continuerJeuGlobal) { combatTermine = true; break; }
                                 if (equipeDuJoueur.getMembres().isEmpty()) { combatTermine = true; victoireJoueurCombat = false; break; }
                                 System.out.println(ANSI_PURPLE + "\n-- Action de " + monstreActif.getNom() + " --" + ANSI_RESET);
                                 monstreActif.mettreAJourEffets();
@@ -316,19 +320,52 @@ public class Main {
                                     if (monstres.isEmpty()) { victoireJoueurCombat = true; combatTermine = true; }
                                     continue;
                                 }
-                        } // Fin tour des monstres
+                                boolean monstreEstEtourdi = false;
+                                if(monstreActif.getEffetsActifs() != null) {
+                                    for(personnage.EffetTemporaire ef : monstreActif.getEffetsActifs()) if(ef.getNom().equals("Étourdi")) monstreEstEtourdi = true;
+                                }
+                                if(monstreEstEtourdi) {System.out.println(monstreActif.getNom() + " est Étourdi 💫 !"); continue;}
+
+                                Personnage joueurCible = equipeDuJoueur.getLeader();
+                                if (joueurCible != null && joueurCible.estVivant()) {
+                                    monstreActif.attaquer(joueurCible);
+                                    if (!joueurCible.estVivant()) {
+                                        System.out.println(ANSI_RED+ANSI_BOLD+joueurCible.getNom()+" vaincu par "+monstreActif.getNom()+"!"+ANSI_RESET);
+                                        equipeDuJoueur.getMembres().remove(joueurCible);
+                                        if (equipeDuJoueur.getMembres().isEmpty()) { System.out.println(ANSI_RED+ANSI_BOLD+"\nÉQUIPE ANÉANTIE !"+ANSI_RESET); victoireJoueurCombat = false; combatTermine = true; break; }
+                                        else System.out.println(ANSI_YELLOW+equipeDuJoueur.getLeader().getNom()+ANSI_RESET+" en première ligne.");
+                                    }
+                                } else if (equipeDuJoueur.getMembres().isEmpty()) { victoireJoueurCombat = false; combatTermine = true; break; }
+                                else { 
+                                    Personnage nouvelleCible = equipeDuJoueur.getLeader();
+                                    if(nouvelleCible != null && nouvelleCible.estVivant()) {
+                                        monstreActif.attaquer(nouvelleCible);
+                                        if(!nouvelleCible.estVivant()){
+                                            equipeDuJoueur.getMembres().remove(nouvelleCible);
+                                            if(equipeDuJoueur.getMembres().isEmpty()){ victoireJoueurCombat = false; combatTermine = true; break;}
+                                        }
+                                    } else if (equipeDuJoueur.getMembres().isEmpty()) {
+                                        victoireJoueurCombat = false; combatTermine = true; break;
+                                    }
+                                     else System.out.println(monstreActif.getNom() + " ne trouve pas de cible valide.");
+                                }
+                                if (combatTermine && !victoireJoueurCombat) break;
+                            }
+                        }
                         if (!continuerJeuGlobal) break;
 
                         if (equipeDuJoueur.getMembres().isEmpty()) { victoireJoueurCombat = false; combatTermine = true; }
                         else if (monstres.isEmpty()) { victoireJoueurCombat = true; combatTermine = true; }
                         
-                        if (combatTermine && continuerJeuGlobal && (victoireJoueurCombat || !equipeDuJoueur.getMembres().isEmpty())) {
+                        if (!combatTermine && continuerJeuGlobal) { // Pause seulement si le combat continue
                             String pauseFinRound = lireStringAvecMenuPause(scanner, ANSI_YELLOW + "\nFin du round. Entrée ('M' menu)..." + ANSI_RESET, equipeDuJoueur, etage, nomJoueur);
                             if ("QUIT_GAME_INTERNAL".equals(pauseFinRound) || !continuerJeuGlobal) break;
                         }
-                    } 
-                } 
+                    }
+                }
                 if (!continuerJeuGlobal) break;
+
+                
 
                 System.out.println(ANSI_BOLD + ANSI_BLUE + "\n--- COMBAT ÉTAGE " + etage + " TERMINÉ ! ---" + ANSI_RESET);
                 if (victoireJoueurCombat) {
@@ -336,7 +373,12 @@ public class Main {
                     etage++;
                     equipeDuJoueur.proposerChoixNouveauPersonnage(scanner, equipeDuJoueur, etage, nomJoueur);
                     if (!continuerJeuGlobal) break;
-                } else { System.out.println(ANSI_RED + ANSI_BOLD + "Défaite..." + ANSI_RESET); }
+                } else if (!equipeDuJoueur.getMembres().isEmpty()){ 
+                     System.out.println(ANSI_RED + ANSI_BOLD + "Objectif non atteint..." + ANSI_RESET);
+                } else { 
+                     System.out.println(ANSI_RED + ANSI_BOLD + "Défaite..." + ANSI_RESET);
+                }
+
                 if (!continuerJeuGlobal) break;
 
                 if (victoireJoueurCombat) {
@@ -347,23 +389,21 @@ public class Main {
                      if ("QUIT_GAME_INTERNAL".equals(choixRecommencer) || !choixRecommencer.equalsIgnoreCase("Y") || !continuerJeuGlobal) continuerSession = "N";
                      else { nomJoueur = ""; continuerSession = "Y_RELOAD"; }
                 }
-            } // Fin boucle principale d'étage
+            }
             if (!continuerSession.equalsIgnoreCase("Y_RELOAD")) continuerSession = "N";
             else continuerSession = "Y";
-        } // Fin boucle de session
+        }
         System.out.println(ANSI_BOLD + ANSI_CYAN + "\nFin de partie. Merci d'avoir joué !" + ANSI_RESET);
         // if (database != null) database.disconnect();
         scanner.close();
-        }
     }
 
-    // --- MÉTHODES UTILITAIRES STATIQUES ---
     public static List<Monstre> genererMonstresPourEtage(int etage) {
         List<Monstre> groupeMonstres = new ArrayList<>();
         Random random = new Random();
         int nbMonstres;
         if (etage > 0 && etage % 10 == 0) nbMonstres = 1;
-        else if (etage < 5) nbMonstres = random.nextInt(1) + 1; 
+        else if (etage < 5) nbMonstres = random.nextInt(1) + 1;
         else if (etage < 15) nbMonstres = random.nextInt(2) + 2;
         else if (etage < 30) nbMonstres = random.nextInt(3) + 3;
         else nbMonstres = random.nextInt(2) + 4;
@@ -412,7 +452,7 @@ public class Main {
 
     public static Monstre selectionnerCibleMonstreInteractive(Scanner scanner, List<Monstre> monstres, Equipe equipe, int etage, String nomJoueur) {
         if (monstres.isEmpty()) return null;
-        if (monstres.size() == 1) return monstres.get(0); 
+        if (monstres.size() == 1) return monstres.get(0);
         int choixCibleInput = lireIntAvecMenuPause(scanner, "Votre choix (numéro de cible) : ", equipe, etage, nomJoueur);
         if (!continuerJeuGlobal || choixCibleInput == -999) return null;
         int choixCibleIndex = choixCibleInput - 1;
@@ -421,14 +461,14 @@ public class Main {
     }
 
     private static boolean doitDeclencherEvenement(int etage) {
-        return (etage > 1 && etage % 10 == 5 && etage % 2 != 0); 
+        return (etage > 1 && etage % 10 == 5); // Ajusté pour correspondre à l'OCR: 5, 15, 25...
     }
 
     private static Evenement choisirEvenementAleatoire(int etage) {
         Random random = new Random();
         List<Evenement> pool = new ArrayList<>();
         pool.add(new TerrainRuine());
-        pool.add(new Ecclesiastique());
+        pool.add(new Ecclesiastique()); // Renommé par rapport à votre import précédent
         pool.add(new Mercenaire());
         pool.add(new Fantome());
         if (pool.isEmpty()) return null;

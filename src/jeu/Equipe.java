@@ -102,7 +102,7 @@ public class Equipe {
 
         while (personnageChoisi == null) {
             System.out.println(Main.ANSI_CYAN + "Classes disponibles  :" + Main.ANSI_RESET);
-            System.out.println("  1. Assassin 🗡️" + (classeEstPresente("Assassin") ? "(Déjà pris)" : ""));
+            System.out.println("  1. Assassin 🗡️ \\uD83D\\uDDE1\\uFE0F" + (classeEstPresente("Assassin") ? "(Déjà pris)" : ""));
             System.out.println("  2. Barbare 🪓 " + (classeEstPresente("Barbare") ? "(Déjà pris)" : ""));
             System.out.println("  3. Chevalier ⚔️ " + (classeEstPresente("Chevalier") ? "(Déjà pris)" : ""));
             System.out.println("  4. Enchanteur 📜" + (classeEstPresente("Enchanteur") ? "(Déjà pris)" : ""));
