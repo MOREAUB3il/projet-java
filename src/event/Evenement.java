@@ -21,8 +21,7 @@ public abstract class Evenement {
         return description;
     }
 
-    public abstract void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur);
-
+    public abstract void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur, int idSauvegardeActive);
 
     protected void afficherDebutEvenement() {
         System.out.println(Main.ANSI_BOLD + Main.ANSI_CYAN + "\n--- ÉVÉNEMENT : " + nom + " ---" + Main.ANSI_RESET);

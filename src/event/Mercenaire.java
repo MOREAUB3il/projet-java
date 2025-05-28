@@ -8,8 +8,7 @@ import personnage.Personnage;
 import personnage.EffetTemporaire;
 import personnage.Paladin; 
 
-import java.util.ArrayList;
-import java.util.Collections; 
+import java.util.ArrayList; 
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -22,12 +21,12 @@ public class Mercenaire extends Evenement {
     }
 
     @Override
-    public void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur) {
+    public void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur, int idSauvegardeActive) {
         afficherDebutEvenement();
 
         String choixInitial = Main.lireStringAvecMenuPause(scanner,
                 "Que faites-vous ?\n  1. Le combattre (max 3 tours de joueur).\n  2. Payer 20G pour passer.\n  3. Tenter de l'ignorer et partir (risqué).\nChoix ('M' menu) : ",
-                equipe, etage, nomJoueur);
+                equipe, etage, nomJoueur, idSauvegardeActive);
 
         if (!Main.continuerJeuGlobal || "QUIT_GAME_INTERNAL".equals(choixInitial)) return;
 
@@ -38,31 +37,31 @@ public class Mercenaire extends Evenement {
                 System.out.println(Main.ANSI_GREEN + "Vous payez " + peage + "G. Le mercenaire vous laisse passer en ricanant." + Main.ANSI_RESET);
             } else {
                 System.out.println(Main.ANSI_RED + "Vous n'avez pas assez d'or ! Le mercenaire se moque et insiste pour un combat." + Main.ANSI_RESET);
-                combattreMercenaire(equipe, scanner, etage, nomJoueur);
+                combattreMercenaire(equipe, scanner, etage, nomJoueur, idSauvegardeActive);
             }
         } else if ("1".equals(choixInitial)) {
-            combattreMercenaire(equipe, scanner, etage, nomJoueur);
+            combattreMercenaire(equipe, scanner, etage, nomJoueur, idSauvegardeActive);
         } else if ("3".equals(choixInitial)) {
             System.out.println("Vous essayez de passer outre le mercenaire...");
              try { Thread.sleep(1000); } catch (InterruptedException e) {}
             if (new Random().nextInt(100) < 30) { 
                  System.out.println(Main.ANSI_GREEN + "Étonnamment, il vous laisse partir, peut-être vous sous-estime-t-il." + Main.ANSI_RESET);
             } else {
-                 System.out.println(Main.ANSI_RED + "Le mercenaire vous attrape par le collet ! \"Pas si vite !\" Il engage le combat." + Main.ANSI_RESET);
-                 combattreMercenaire(equipe, scanner, etage, nomJoueur);
+                 System.out.println(Main.ANSI_RED + "Le mercenaire vous attrape par le col ! \"Pas si vite !\" Il engage le combat." + Main.ANSI_RESET);
+                 combattreMercenaire(equipe, scanner, etage, nomJoueur, idSauvegardeActive);
             }
         } else {
             System.out.println(Main.ANSI_YELLOW + "Vous restez immobile. Le mercenaire s'impatiente et attaque !" + Main.ANSI_RESET);
-            combattreMercenaire(equipe, scanner, etage, nomJoueur);
+            combattreMercenaire(equipe, scanner, etage, nomJoueur, idSauvegardeActive);
         }
 
         if(Main.continuerJeuGlobal) {
-             String pause = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nFin de la rencontre. Appuyez sur Entrée ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur);
+             String pause = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nFin de la rencontre. Appuyez sur Entrée ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur,idSauvegardeActive);
              if("QUIT_GAME_INTERNAL".equals(pause) || !Main.continuerJeuGlobal) Main.continuerJeuGlobal = false;
         }
     }
 
-    private void combattreMercenaire(Equipe equipe, Scanner scanner, int etage, String nomJoueur) {
+    private void combattreMercenaire(Equipe equipe, Scanner scanner, int etage, String nomJoueur,int idSauvegardeActive) {
         System.out.println(Main.ANSI_BOLD + Main.ANSI_RED + "\n--- COMBAT CONTRE LE MERCENAIRE ---" + Main.ANSI_RESET);
         MercenairePNJ mercenaire = new MercenairePNJ(etage);
         List<Monstre> adversaires = new ArrayList<>();
@@ -102,7 +101,7 @@ public class Mercenaire extends Evenement {
                         paConsommesCeTour = pointsActionEquipe; continue;
                     }
                     
-                    int choixPersoInput = Main.lireIntAvecMenuPause(scanner, "Votre choix (numéro) : ", equipe, etage, nomJoueur);
+                    int choixPersoInput = Main.lireIntAvecMenuPause(scanner, "Votre choix (numéro) : ", equipe, etage, nomJoueur, idSauvegardeActive);
                     if (!Main.continuerJeuGlobal || choixPersoInput == -999) { combatSpecialTermine = true; break; }
 
                     if (choixPersoInput == 0) { /* ... gestion du "passer 0" ... */ continue; }
@@ -119,7 +118,7 @@ public class Mercenaire extends Evenement {
                     System.out.println("  3. Utiliser Objet"); 
                     System.out.println("  0. Passer ce PA");
                     
-                    int choixActionJoueur = Main.lireIntAvecMenuPause(scanner, "Action : ", equipe, etage, nomJoueur);
+                    int choixActionJoueur = Main.lireIntAvecMenuPause(scanner, "Action : ", equipe, etage, nomJoueur,idSauvegardeActive);
                     if (!Main.continuerJeuGlobal || choixActionJoueur == -999) { combatSpecialTermine = true; break; }
 
                     boolean actionCombatFaite = false;
@@ -141,7 +140,7 @@ public class Mercenaire extends Evenement {
                              actionCombatFaite = true; personnagesAyantAgiCombatCeTourPA.add(joueurActif);
                              break;
                         case 3: 
-                            if(equipe.getInventaireCommun().utiliserObjetInteractive(scanner, joueurActif, equipe.getMembres(), adversaires, equipe, etage, nomJoueur)){
+                            if(equipe.getInventaireCommun().utiliserObjetInteractive(scanner, joueurActif, equipe.getMembres(), adversaires, equipe, etage, nomJoueur, idSauvegardeActive)){
                                 objetUtilise = true;
                             }
                              if (!Main.continuerJeuGlobal) { combatSpecialTermine = true; }
@@ -197,7 +196,7 @@ public class Mercenaire extends Evenement {
             toursDeJoueurEffectues++;
             if (!Main.continuerJeuGlobal || combatSpecialTermine || !mercenaire.estVivant() || equipe.getMembres().isEmpty()) break;
             
-            String pauseRoundMerc = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nFin du round contre le mercenaire. Entrée ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur);
+            String pauseRoundMerc = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nFin du round contre le mercenaire. Entrée ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur, idSauvegardeActive);
             if ("QUIT_GAME_INTERNAL".equals(pauseRoundMerc) || !Main.continuerJeuGlobal) { combatSpecialTermine = true; break;}
 
         }

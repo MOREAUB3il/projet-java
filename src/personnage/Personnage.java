@@ -51,7 +51,7 @@ public abstract class Personnage {
         this.pv = this.pvMax; 
         this.niveau = 1;
         this.xp = 0;
-        this.xpPourNiveauSuivant = 100;
+        this.xpPourNiveauSuivant = 50;
         this.compLvl = 1;
         this.ultLvl = 0;
     }
@@ -233,6 +233,8 @@ public abstract class Personnage {
         this.pvMax = Math.max(1, pvMax);
         if (this.pv > this.pvMax) this.pv = this.pvMax;
     }
+    public int getDefenseBaseSpecifiqueType() { return defenseBaseSpecifiqueType; }
+    public int getForceBase() { return forceBase; }
     public void setForceBase(int force) { this.forceBase = Math.max(1, force); } 
     public int getNiveau() { return niveau; }
     public void setNiveau(int niveau) { this.niveau = niveau; } 
@@ -245,9 +247,9 @@ public abstract class Personnage {
 
 
     private static final String[] SANTE_POSSIBLES = {
-        SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,
-        SANTE_FATIGUE, SANTE_FATIGUE,SANTE_FATIGUE,
-        SANTE_EPUISE, SANTE_EPUISE,
+        SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,SANTE_PLEINE_FORME,
+        SANTE_FATIGUE, SANTE_FATIGUE,SANTE_FATIGUE,SANTE_FATIGUE,
+        SANTE_EPUISE, SANTE_EPUISE,SANTE_EPUISE,
         SANTE_SUR_LA_FIN
     };
     protected static String santeAleatoire() {
@@ -263,7 +265,7 @@ public abstract class Personnage {
         while (this.xp >= this.xpPourNiveauSuivant && this.xpPourNiveauSuivant > 0) {
             this.xp -= this.xpPourNiveauSuivant;
             this.niveau++;
-            this.xpPourNiveauSuivant = (int) (this.xpPourNiveauSuivant * 1.35) + (75 * this.niveau);
+            this.xpPourNiveauSuivant = (int) (this.xpPourNiveauSuivant * 1.15) ;
             System.out.println("\u001B[1m\u001B[32m" + nom + " monte au niveau " + this.niveau + " !\u001B[0m");
             augmenterStats(); 
             verifierAmeliorationsCompetences();
@@ -386,5 +388,11 @@ public abstract class Personnage {
     public abstract void subirDegats(int degatsBruts);
 
     public boolean estVivant() { return pv > 0; }
-    
+    public void setPvMaxDirect(int pvMax) { this.pvMax = pvMax; }
+    public void setForceBaseDirect(int forceBase) { this.forceBase = forceBase; }
+    public void setDefenseBaseSpecifiqueTypeDirect(int defBase) { this.defenseBaseSpecifiqueType = defBase; }
+    public void setNiveauLoaded(int niveau) { this.niveau = niveau; }
+    public void setXpLoaded(int xp, int xpNext) { this.xp = xp; this.xpPourNiveauSuivant = xpNext; }
+    public void setCompLvlLoaded(int compLvl) { this.compLvl = compLvl; }
+    public void setUltLvlLoaded(int ultLvl) { this.ultLvl = ultLvl; }
 }

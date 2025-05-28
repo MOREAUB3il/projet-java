@@ -14,13 +14,13 @@ public class TerrainRuine extends Evenement {
     }
 
     @Override
-    public void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur) {
+    public void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur,int idSauvegardeActive) {
         afficherDebutEvenement();
         Random random = new Random();
 
         String choixAction = Main.lireStringAvecMenuPause(scanner,
                 "Que voulez-vous faire ?\n  1. Fouiller les ruines (Piller)\n  2. Continuer votre chemin (Ignorer)\nChoix ('M' menu) : ",
-                equipe, etage, nomJoueur);
+                equipe, etage, nomJoueur, idSauvegardeActive);
 
         if (!Main.continuerJeuGlobal || "QUIT_GAME_INTERNAL".equals(choixAction)) return;
 
@@ -51,7 +51,7 @@ public class TerrainRuine extends Evenement {
         }
 
         if(Main.continuerJeuGlobal) {
-             String pause = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nAppuyez sur Entrée pour continuer ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur);
+             String pause = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nAppuyez sur Entrée pour continuer ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur, idSauvegardeActive);
              if("QUIT_GAME_INTERNAL".equals(pause)) Main.continuerJeuGlobal = false;
         }
     }

@@ -8,7 +8,7 @@ public abstract class Mage extends Personnage {
     public int getMalediction() {
         return malediction;
     }
-    public void setPenetration(int malediction) {
+    public void setMalediction(int malediction) {
         if (malediction >= 0) {
             this.malediction = malediction;
         }

@@ -16,7 +16,7 @@ public class Ecclesiastique extends Evenement {
     }
 
     @Override
-    public void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur) {
+    public void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur,int idSauvegardeActive) {
         afficherDebutEvenement();
         int coutAmeliorationSante = 10;
         int coutRetablirSante = 30;
@@ -45,14 +45,14 @@ public class Ecclesiastique extends Evenement {
             System.out.println("  1. Payer " + Main.ANSI_YELLOW + coutAmeliorationSante + "G"+ Main.ANSI_RESET + "pour améliorer la santé max d'un personnage (+1 niveau de santé max).");
             System.out.println("  2. Payer " + Main.ANSI_YELLOW + coutRetablirSante + Main.ANSI_RESET + "G pour rétablir la santé d'un personnage (état 'en pleine forme').");
             System.out.println("  3. Décliner poliment et partir.");
-            choixAction = Main.lireStringAvecMenuPause(scanner, "Votre choix ('M' menu) : ", equipe, etage, nomJoueur);
+            choixAction = Main.lireStringAvecMenuPause(scanner, "Votre choix ('M' menu) : ", equipe, etage, nomJoueur, coutRetablirSante);
 
             if (!Main.continuerJeuGlobal || "QUIT_GAME_INTERNAL".equals(choixAction)) { interactionTerminee = true; break; }
 
             switch (choixAction) {
                 case "1":
                     if (equipe.getInventaireCommun().getOr() >= coutAmeliorationSante) {
-                        Personnage persoAChoisir = selectionnerPersonnagePourSoin(equipe, scanner, "améliorer la santé max", equipe, etage, nomJoueur);
+                        Personnage persoAChoisir = selectionnerPersonnagePourSoin(equipe, scanner, "améliorer la santé max", equipe, etage, nomJoueur, idSauvegardeActive);
                         if (persoAChoisir != null && Main.continuerJeuGlobal) {
                             equipe.getInventaireCommun().setOr(equipe.getInventaireCommun().getOr() - coutAmeliorationSante);
                             int bonusPvMax = 5 + new Random().nextInt(6);
@@ -67,7 +67,7 @@ public class Ecclesiastique extends Evenement {
                     break;
                 case "2":
                     if (equipe.getInventaireCommun().getOr() >= coutRetablirSante) {
-                        Personnage persoAChoisir = selectionnerPersonnagePourSoin(equipe, scanner, "rétablir la santé", equipe, etage, nomJoueur);
+                        Personnage persoAChoisir = selectionnerPersonnagePourSoin(equipe, scanner, "rétablir la santé", equipe, etage, nomJoueur, idSauvegardeActive);
                         if (persoAChoisir != null && Main.continuerJeuGlobal) {
                             equipe.getInventaireCommun().setOr(equipe.getInventaireCommun().getOr() - coutRetablirSante);
                             persoAChoisir.setSante(Personnage.SANTE_PLEINE_FORME); // Met le perso en pleine forme
@@ -88,20 +88,20 @@ public class Ecclesiastique extends Evenement {
             }
         }
         if(Main.continuerJeuGlobal) {
-             String pause = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nAppuyez sur Entrée pour continuer ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur);
+             String pause = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nAppuyez sur Entrée pour continuer ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur, coutRetablirSante);
              if("QUIT_GAME_INTERNAL".equals(pause)) Main.continuerJeuGlobal = false;
         }
     }
 
     private Personnage selectionnerPersonnagePourSoin(Equipe equipe, Scanner scanner, String action,
-                                                      Equipe equipePourMenu, int etagePourMenu, String nomJoueurPourMenu) {
+                                                      Equipe equipePourMenu, int etagePourMenu, String nomJoueurPourMenu,int idSauvegardeActive) {
         if (equipe.getMembres().isEmpty()) return null;
         System.out.println("Quel personnage doit " + action + " ?");
         for (int i = 0; i < equipe.getMembres().size(); i++) {
             Personnage p = equipe.getMembres().get(i);
             System.out.println("  " + (i + 1) + ". " + p.getNom() + " (Santé: " + p.getSante() + ", PV: " + p.getPv() + "/" + p.getPvMax() + ")");
         }
-        int choixPerso = Main.lireIntAvecMenuPause(scanner, "Choix (0 annuler, 'M' menu) : ", equipePourMenu, etagePourMenu, nomJoueurPourMenu);
+        int choixPerso = Main.lireIntAvecMenuPause(scanner, "Choix (0 annuler, 'M' menu) : ", equipePourMenu, etagePourMenu, nomJoueurPourMenu, idSauvegardeActive);
         if (!Main.continuerJeuGlobal || choixPerso == -999 || choixPerso == 0) return null;
         if (choixPerso > 0 && choixPerso <= equipe.getMembres().size()) {
             return equipe.getMembres().get(choixPerso - 1);
