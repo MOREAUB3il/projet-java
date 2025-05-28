@@ -9,3 +9,10 @@ joueur peut faire des choix qui rendront sa partie unique grâce à plusieurs é
 
 ## Documentation
 Vous pouvez acceder à la documentation en cliquant [ici](https://github.com/MOREAUB3il/projet-java/tree/main/documentation)
+
+## Installation
+Pour installer Monsage: 
+-cliquer [ici](https://github.com/MOREAUB3il/projet-java/releases/tag/v0.1.1)
+-télécharger le fichier zip et décomprésser sur votre bureau
+-cliquer sur "lancer-jeu.bat"
+
