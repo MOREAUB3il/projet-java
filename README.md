@@ -8,3 +8,4 @@ utiliser en combat pour améliorer ses chances de survie en gérant bien son arg
 joueur peut faire des choix qui rendront sa partie unique grâce à plusieurs événements
 
 ## Documentation
+Vous pouvez acceder à la documentation en cliquant [ici](https://github.com/MOREAUB3il/projet-java/tree/main/documentation)
