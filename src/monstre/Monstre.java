@@ -217,20 +217,20 @@ public class Monstre {
 
 
     public static Monstre monstreFaible(int etage) {
-        return new Monstre("Gobelin Chétif", 20, 7, 1, 0.02, 5, 15, etage);
+        return new Monstre("Gobelin Chétif", 20, 7, 1, 0.02, 5, 25, etage);
     }
     public static Monstre monstreMoyen(int etage) {
-        return new Monstre("Orque Hargneux", 50, 14, 4, 0.03, 10, 25, etage);
+        return new Monstre("Orque Hargneux", 50, 14, 4, 0.03, 10, 40, etage);
     }
     public static Monstre monstreFort(int etage) {
-        return new Monstre("Ogre Brutal", 100, 25, 7, 0.05, 20, 45, etage);
+        return new Monstre("Ogre Brutal", 100, 25, 7, 0.05, 20, 100, etage);
     }
     public static Monstre boss(int etage) {
         int pvBossBase = 100 + (etage * 10);
         int forceBossBase = 25 + (int)(etage * 1.2); 
         int defenseBossBase = 8 + (etage / 3);
         int orBoss = 40 + etage * 4;
-        int xpBoss = 120 + etage * 8;
+        int xpBoss = 220 + etage * 8;
         return new Monstre("BOSS Étage " + etage, pvBossBase, forceBossBase, defenseBossBase, 0.1, orBoss, xpBoss, etage);
     }
 }

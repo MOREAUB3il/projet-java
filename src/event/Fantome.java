@@ -15,7 +15,7 @@ public class Fantome extends Evenement {
     }
 
     @Override
-    public void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur) {
+    public void declencher(Equipe equipe, Scanner scanner, int etage, String nomJoueur, int idSauvegardeActive) {
         afficherDebutEvenement();
         Random random = new Random();
         boolean enchanteurDansEquipe = false;
@@ -60,7 +60,7 @@ public class Fantome extends Evenement {
             }
         }
         if(Main.continuerJeuGlobal) {
-             String pause = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nAppuyez sur Entrée pour continuer ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur);
+             String pause = Main.lireStringAvecMenuPause(scanner, Main.ANSI_YELLOW + "\nAppuyez sur Entrée pour continuer ('M' menu)..." + Main.ANSI_RESET, equipe, etage, nomJoueur, idSauvegardeActive);
              if("QUIT_GAME_INTERNAL".equals(pause)) Main.continuerJeuGlobal = false;
         }
     }

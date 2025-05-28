@@ -106,6 +106,20 @@ public class Objet {
                 break;
         }
     }
+
+    public static Objet creerObjetParNom(String nomObjet) {
+        if (nomObjet == null || nomObjet.trim().isEmpty()) return null;
+        if (nomObjet.equalsIgnoreCase(potionCommune().getNom())) return potionCommune();
+        if (nomObjet.equalsIgnoreCase(potionRare().getNom())) return potionRare();
+        if (nomObjet.equalsIgnoreCase(potionLegendaire().getNom())) return potionLegendaire();
+        if (nomObjet.equalsIgnoreCase(collierCommun().getNom())) return collierCommun();
+        if (nomObjet.equalsIgnoreCase(collierRare().getNom())) return collierRare();
+        if (nomObjet.equalsIgnoreCase(collierLegendaire().getNom())) return collierLegendaire();
+        if (nomObjet.equalsIgnoreCase(fioleDePoison().getNom())) return fioleDePoison();
+        System.err.println("Objet inconnu lors du chargement: " + nomObjet);
+        return null;
+    }
+    
     public void afficher() {
         System.out.println(nom + " (" + rarete + ") - " + effet);
     }
