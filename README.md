@@ -9,6 +9,7 @@ joueur peut faire des choix qui rendront sa partie unique grâce à plusieurs é
 
 ## Documentation
 Vous pouvez accéder à la documentation en cliquant [ici](https://github.com/MOREAUB3il/projet-java/tree/main/documentation).
+Vous pouver accéder à la vidéo en cliquant [ici](https://youtu.be/6zaXJAUtOGU).
 
 ## Installation
 Pour installer Monsage: 
