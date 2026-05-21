@@ -46,11 +46,9 @@ public class Necromancien  extends Mage{
             
         if (cible.getPv() <= 0) {
             System.out.println(cible.getNom() + " est mort !");
-            
-                int degatsRetour = (int) (degats * 0.4); 
-                System.out.println(cible.getNom() + " attaque " + cible.getNom() + " en mourant pour " + degatsRetour + " dégâts !");
-                cible.subirDegats(degatsRetour);
-        
+            int degatsRetour = (int) (degats * 0.4);
+            System.out.println(getNom() + " absorbe l'âme de " + cible.getNom() + " et récupère " + degatsRetour + " PV !");
+            this.setPv(Math.min(this.getPv() + degatsRetour, this.getPvMax()));
         }
     }
 }

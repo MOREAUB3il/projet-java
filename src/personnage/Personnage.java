@@ -195,7 +195,7 @@ public abstract class Personnage {
 
             if (!effet.estPermanent()) {
                 if (!effet.decrementerDuree()) {
-                    String nomCouleur = (this instanceof Personnage) ? Main.ANSI_YELLOW : Main.ANSI_PURPLE; 
+                    String nomCouleur = Main.ANSI_YELLOW;
                     System.out.println("L'effet '" + effet.getNom() + "' " + effet.getEmoji() + " a expiré pour " + nomCouleur + this.getNom() + Main.ANSI_RESET);
                     annulerLogiqueEffetStats(effet);
                     iter.remove();
@@ -383,8 +383,8 @@ public abstract class Personnage {
     }
 
     public abstract void attaque1(Monstre cible);
-    public abstract void ultiAtt(Monstre cible);
-     public abstract void ultiSoigner(List<Personnage> equipe);
+    public abstract void ulti(Monstre cible);
+    public abstract void ultiSoigner(List<Personnage> equipe);
     public abstract void subirDegats(int degatsBruts);
 
     public boolean estVivant() { return pv > 0; }

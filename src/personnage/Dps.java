@@ -35,7 +35,7 @@ public abstract class Dps extends Personnage {
         if (getPv() < 0) setPv(0);
         System.out.println(getNom() + " perd " + degats + " PV. Il lui reste " + getPv() + " PV.");
     }
-    public void ultiAtta(Monstre cible){ // force + pénétration + force cible + si ennemi meurt le monstre derrière a 50,100,150% des dégats infligés
+    public void ultiAtt(Monstre cible){ // force + pénétration + force cible + si ennemi meurt le monstre derrière a 50,100,150% des dégats infligés
         int degats;
         if (getNiveau() < 5) {
             degats = getForce() + getPenetration() + (cible.getPv() / 4);

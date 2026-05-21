@@ -1,0 +1,328 @@
+/* ─── Fond global ─────────────────────────────────────────────────────── */
+.root {
+    -fx-background-color: #0f0f1a;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+/* ─── Labels ──────────────────────────────────────────────────────────── */
+.label {
+    -fx-text-fill: #e0e0f0;
+}
+
+.titre-principal {
+    -fx-font-size: 42px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c9a84c;
+    -fx-effect: dropshadow(gaussian, #c9a84c88, 20, 0.5, 0, 0);
+}
+
+.titre-ecran {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c9a84c;
+}
+
+.label-etage {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #a0c4ff;
+}
+
+.label-pa {
+    -fx-font-size: 15px;
+    -fx-text-fill: #ffd166;
+    -fx-font-weight: bold;
+}
+
+.label-nom-perso {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #e0e0f0;
+}
+
+.label-nom-monstre {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ff8a8a;
+}
+
+.label-pv {
+    -fx-font-size: 11px;
+    -fx-text-fill: #b0b0c0;
+}
+
+.label-classe {
+    -fx-font-size: 11px;
+    -fx-text-fill: #8888aa;
+}
+
+.label-info {
+    -fx-font-size: 13px;
+    -fx-text-fill: #c0c0d8;
+}
+
+/* ─── Boutons ─────────────────────────────────────────────────────────── */
+.btn-principal {
+    -fx-background-color: #c9a84c;
+    -fx-text-fill: #0f0f1a;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 32 12 32;
+    -fx-background-radius: 6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, #c9a84c66, 8, 0.3, 0, 2);
+}
+
+.btn-principal:hover {
+    -fx-background-color: #e0bf6a;
+    -fx-effect: dropshadow(gaussian, #c9a84caa, 14, 0.5, 0, 3);
+}
+
+.btn-principal:pressed {
+    -fx-background-color: #a88830;
+}
+
+.btn-action {
+    -fx-background-color: #1e2a45;
+    -fx-text-fill: #c9a84c;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-background-radius: 5;
+    -fx-border-color: #c9a84c;
+    -fx-border-radius: 5;
+    -fx-border-width: 1.5;
+    -fx-cursor: hand;
+}
+
+.btn-action:hover {
+    -fx-background-color: #2e3f65;
+    -fx-effect: dropshadow(gaussian, #c9a84c66, 8, 0.3, 0, 0);
+}
+
+.btn-action:disabled {
+    -fx-opacity: 0.4;
+    -fx-cursor: default;
+}
+
+.btn-danger {
+    -fx-background-color: #3d1515;
+    -fx-text-fill: #ff8a8a;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+    -fx-background-radius: 5;
+    -fx-border-color: #ff5555;
+    -fx-border-radius: 5;
+    -fx-border-width: 1.5;
+    -fx-cursor: hand;
+}
+
+.btn-danger:hover {
+    -fx-background-color: #5a2020;
+}
+
+.btn-classe {
+    -fx-background-color: #1a1a2e;
+    -fx-text-fill: #e0e0f0;
+    -fx-font-size: 14px;
+    -fx-padding: 12 20 12 20;
+    -fx-background-radius: 8;
+    -fx-border-color: #333355;
+    -fx-border-radius: 8;
+    -fx-border-width: 1.5;
+    -fx-cursor: hand;
+    -fx-pref-width: 200px;
+    -fx-alignment: center-left;
+}
+
+.btn-classe:hover {
+    -fx-background-color: #252545;
+    -fx-border-color: #c9a84c;
+    -fx-text-fill: #c9a84c;
+}
+
+.btn-classe-pris {
+    -fx-opacity: 0.35;
+    -fx-cursor: default;
+}
+
+/* ─── Cartes personnage ───────────────────────────────────────────────── */
+.card-personnage {
+    -fx-background-color: #16213e;
+    -fx-background-radius: 10;
+    -fx-border-color: #333366;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+    -fx-padding: 10;
+    -fx-pref-width: 160px;
+    -fx-cursor: hand;
+}
+
+.card-personnage:hover {
+    -fx-border-color: #5577bb;
+    -fx-background-color: #1e2a4a;
+}
+
+.card-personnage-selectionne {
+    -fx-border-color: #c9a84c;
+    -fx-border-width: 2.5;
+    -fx-background-color: #25204a;
+    -fx-effect: dropshadow(gaussian, #c9a84c88, 12, 0.4, 0, 0);
+}
+
+.card-personnage-mort {
+    -fx-opacity: 0.3;
+    -fx-cursor: default;
+}
+
+/* ─── Cartes monstre ─────────────────────────────────────────────────── */
+.card-monstre {
+    -fx-background-color: #2e1111;
+    -fx-background-radius: 10;
+    -fx-border-color: #552222;
+    -fx-border-radius: 10;
+    -fx-border-width: 1.5;
+    -fx-padding: 10;
+    -fx-pref-width: 160px;
+    -fx-cursor: hand;
+}
+
+.card-monstre:hover {
+    -fx-border-color: #cc4444;
+    -fx-background-color: #3e1a1a;
+}
+
+.card-monstre-ciblable {
+    -fx-border-color: #ff4444;
+    -fx-border-width: 2.5;
+    -fx-effect: dropshadow(gaussian, #ff444488, 12, 0.5, 0, 0);
+}
+
+/* ─── Barres de PV ────────────────────────────────────────────────────── */
+.hp-bar-hero {
+    -fx-accent: #4caf50;
+    -fx-background-color: #1a3020;
+    -fx-pref-height: 10px;
+    -fx-background-radius: 5;
+}
+
+.hp-bar-monstre {
+    -fx-accent: #f44336;
+    -fx-background-color: #301a1a;
+    -fx-pref-height: 10px;
+    -fx-background-radius: 5;
+}
+
+/* ─── Log de combat ──────────────────────────────────────────────────── */
+.combat-log {
+    -fx-background-color: #0a0a15;
+    -fx-background-radius: 8;
+    -fx-border-color: #222244;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+}
+
+.combat-log .content {
+    -fx-background-color: transparent;
+}
+
+.combat-log .scroll-bar {
+    -fx-background-color: #0a0a15;
+}
+
+/* ─── Champ de texte ─────────────────────────────────────────────────── */
+.text-field-rpg {
+    -fx-background-color: #1a1a2e;
+    -fx-text-fill: #e0e0f0;
+    -fx-font-size: 16px;
+    -fx-padding: 10 16 10 16;
+    -fx-background-radius: 6;
+    -fx-border-color: #444488;
+    -fx-border-radius: 6;
+    -fx-border-width: 1.5;
+    -fx-pref-width: 320px;
+}
+
+.text-field-rpg:focused {
+    -fx-border-color: #c9a84c;
+}
+
+/* ─── Séparateurs / sections ─────────────────────────────────────────── */
+.separator-rpg {
+    -fx-background-color: #333355;
+    -fx-pref-height: 1px;
+}
+
+.zone-monstres {
+    -fx-background-color: #180808;
+    -fx-padding: 10;
+    -fx-background-radius: 8;
+}
+
+.zone-equipe {
+    -fx-background-color: #080818;
+    -fx-padding: 10;
+    -fx-background-radius: 8;
+}
+
+.zone-actions {
+    -fx-background-color: #0d0d22;
+    -fx-padding: 12;
+    -fx-border-color: #333355;
+    -fx-border-width: 1 0 0 0;
+}
+
+/* ─── Barre de PA ────────────────────────────────────────────────────── */
+.pa-indicator {
+    -fx-background-color: #c9a84c;
+    -fx-background-radius: 3;
+    -fx-pref-width: 18px;
+    -fx-pref-height: 18px;
+}
+
+.pa-indicator-vide {
+    -fx-background-color: #333333;
+    -fx-background-radius: 3;
+    -fx-pref-width: 18px;
+    -fx-pref-height: 18px;
+}
+
+/* ─── Écran de sauvegarde ────────────────────────────────────────────── */
+.save-item {
+    -fx-background-color: #1a1a2e;
+    -fx-background-radius: 6;
+    -fx-border-color: #333355;
+    -fx-border-radius: 6;
+    -fx-border-width: 1;
+    -fx-padding: 10 16 10 16;
+    -fx-cursor: hand;
+    -fx-pref-width: 400px;
+}
+
+.save-item:hover {
+    -fx-border-color: #c9a84c;
+    -fx-background-color: #222240;
+}
+
+/* ─── Texte flottant ─────────────────────────────────────────────────── */
+.floating-damage {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ff5555;
+    -fx-effect: dropshadow(gaussian, black, 4, 0.8, 0, 1);
+}
+
+.floating-heal {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #55ff88;
+    -fx-effect: dropshadow(gaussian, black, 4, 0.8, 0, 1);
+}
+
+.floating-xp {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffd166;
+    -fx-effect: dropshadow(gaussian, black, 4, 0.8, 0, 1);
+}

@@ -76,17 +76,17 @@ public class Objet {
                 if (cible instanceof Personnage) {
                     Personnage pCible = (Personnage) cible;
                     EffetTemporaire buff = null;
-                    if (this.nom == "Potion commune") buff = EffetTemporaire.buffForceFaible();
-                    else if (this.nom == "Potion rare") buff = EffetTemporaire.buffForceMoyen();
-                    else if (this.nom == "Potion légendaire") buff = EffetTemporaire.buffForceForte();
-                    
+                    if (this.nom.equals(collierCommun().getNom())) buff = EffetTemporaire.buffForceFaible();
+                    else if (this.nom.equals(collierRare().getNom())) buff = EffetTemporaire.buffForceMoyen();
+                    else if (this.nom.equals(collierLegendaire().getNom())) buff = EffetTemporaire.buffForceForte();
+
                     if (buff != null) {
                         pCible.appliquerEffet(buff);
                     } else {
-                         System.out.println("  " + Main.ANSI_RED + "Type de collier non reconnu pour le buff." + Main.ANSI_RESET);
+                        System.out.println("  " + Main.ANSI_RED + "Type de collier non reconnu pour le buff." + Main.ANSI_RESET);
                     }
                 } else {
-                     System.out.println("  " + Main.ANSI_RED + "Cet objet ne peut être utilisé que sur un personnage." + Main.ANSI_RESET);
+                    System.out.println("  " + Main.ANSI_RED + "Cet objet ne peut être utilisé que sur un personnage." + Main.ANSI_RESET);
                 }
                 break;
 

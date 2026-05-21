@@ -72,14 +72,14 @@ public class EffetTemporaire {
     }
 
     public static EffetTemporaire buffForceFaible() {
-        return new EffetTemporaire("Force Accrue )", "🔼💪", 2, false);
+        return new EffetTemporaire("Force Accrue (P)", "🔼💪", 2, false);
     }
     public static EffetTemporaire buffForceMoyen() {
-        return new EffetTemporaire("Force Accrue ", "⏫💪", 2, false);
+        return new EffetTemporaire("Force Accrue (M)", "⏫💪", 2, false);
     }
     public static EffetTemporaire buffForceForte() {
-		return new EffetTemporaire("Force Accrue ", "⏫💪", 3, false);
-	}
+        return new EffetTemporaire("Force Accrue (M)", "⏫💪", 3, false);
+    }
     public static EffetTemporaire buffDefenseMineur() {
         return new EffetTemporaire("Défense Renforcée (P)", "🔼🛡️", 3, false);
     }

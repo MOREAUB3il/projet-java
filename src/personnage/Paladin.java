@@ -36,8 +36,8 @@ public class Paladin extends Tank {
         
         cible.subirDegats(degats); 
     }
-    public void ultiAtt(Monstre cible) {  //aggro les monstre et reduit les degats subit de 60,70,80%
-     } 
+    public void ulti(Monstre cible) {  //aggro les monstre et reduit les degats subit de 60,70,80%
+    }
     public void ultiSoigner(List <Personnage> equipe){ 
         
 

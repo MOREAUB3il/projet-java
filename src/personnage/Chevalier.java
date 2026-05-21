@@ -36,7 +36,7 @@ public class Chevalier extends Tank {
         cible.subirDegats(degats); 
     }
     
-    public void ultiAtt(Monstre cible){//force + 15,25,50 % hp max Si ennemi meurt + 15% hp(soin) + 5hpMax
+    public void ulti(Monstre cible){//force + 15,25,50 % hp max Si ennemi meurt + 15% hp(soin) + 5hpMax
         int force = getForce();
         int hpMax = getPvMax();
         int degats = 0;

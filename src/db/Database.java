@@ -215,6 +215,10 @@ public class Database {
     }
 
     // --- Chargement d'une Partie ---
+    public Equipe chargerEquipe(int sauvegardeId, String nomJoueur) {
+        return chargerEquipe(sauvegardeId, null, nomJoueur);
+    }
+
     public Equipe chargerEquipe(int sauvegardeId, Scanner scannerForNewPerso, String nomJoueur) {
         Equipe equipeChargee = new Equipe();
         if (conn == null) return equipeChargee;

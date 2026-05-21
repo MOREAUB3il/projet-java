@@ -32,7 +32,7 @@ public class Enchanteur extends Support {
         cible.subirDegats(degats);
     }
 
-    public void ultiAtt(Monstre cible){ //scelle les ennemis( 20,25,30% de force en moins sur 1,2,3 tours) + 10 pv  de soin sur toute la team
+    public void ulti(Monstre cible){ //scelle les ennemis( 20,25,30% de force en moins sur 1,2,3 tours) + 10 pv  de soin sur toute la team
         int force = getForce();
         int degats = 0;
 

@@ -406,7 +406,7 @@ public class Main {
                                         break;
                                     case 4: // Changer Place
                                         if (personnagesAyantAgiCombat.contains(joueurActif)) { System.out.println(ANSI_RED+"Action combat déjà faite."+ANSI_RESET); continue; }
-                                        if (equipeDuJoueur.changerDePlace(scanner, joueurActif, equipeDuJoueur, choixActionJoueur, actionPrompt, choixActionJoueur)) {
+                                        if (equipeDuJoueur.changerDePlace(scanner, joueurActif, equipeDuJoueur, etage, nomJoueur, idSauvegardeActive)) {
                                             actionCombatFaiteCePa = true; personnagesAyantAgiCombat.add(joueurActif);
                                         }
                                         if (!continuerJeuGlobal) combatTermine = true;

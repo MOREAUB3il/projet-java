@@ -36,7 +36,7 @@ public  class Assassin extends Dps {
     }
 
 
-    public void ultiAtt(Monstre cible){
+    public void ulti(Monstre cible){
         
                 int degatsBase = getForce() + getPenetration() * (cible.getDefence() / 5); 
                 int degats = degatsBase;

@@ -141,7 +141,7 @@ public class Monstre {
 
             if (!effet.estPermanent()) {
                 if (!effet.decrementerDuree()) {
-                    String nomCouleur = (this instanceof Monstre) ? Main.ANSI_YELLOW : Main.ANSI_PURPLE; 
+                    String nomCouleur = Main.ANSI_PURPLE;
                     System.out.println("L'effet '" + effet.getNom() + "' " + effet.getEmoji() + " a expiré pour " + nomCouleur + this.getNom() + Main.ANSI_RESET);
                     annulerLogiqueEffetStats(effet);
                     iter.remove();
@@ -153,7 +153,7 @@ public class Monstre {
     public void subirDegatsDirects(int degats,String raison) {
         if (degats <= 0) return;
         this.setPv(this.getPv() - degats);
-        System.out.println( this.getNom() + "subit " + Main.ANSI_RED + degats + " dégâts directs" + Main.ANSI_RESET + " ! PV: " + this.pv + "/" + this.pvMax);
+        System.out.println(this.getNom() + " subit " + Main.ANSI_RED + degats + " dégâts directs" + Main.ANSI_RESET + " ! PV: " + this.pv + "/" + this.pvMax);
         if (!estVivant()) {
             System.out.println(Main.ANSI_RED + this.nom + " succombe !" + Main.ANSI_RESET);
         }
